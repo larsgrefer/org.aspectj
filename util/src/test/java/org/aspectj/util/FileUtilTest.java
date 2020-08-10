@@ -348,18 +348,9 @@ public class FileUtilTest extends TestCase {
 			log("directory        " + f);
 		} else {
 			log("     file        " + f);
-			InputStream in = null;
-			try {
-				in = url.openStream();
+			try (InputStream in = url.openStream()) {
 			} catch (IOException e) {
 				assertTrue("IOException: " + e, false);
-			} finally {
-				if (null != in) {
-					try {
-						in.close();
-					} catch (IOException e) {
-					}
-				}
 			}
 		}
 	}

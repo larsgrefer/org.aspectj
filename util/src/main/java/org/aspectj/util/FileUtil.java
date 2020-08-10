@@ -893,19 +893,8 @@ public class FileUtil {
 	 * @throws IOException
 	 */
 	public static void copyValidFiles(File fromFile, File toFile) throws IOException {
-		FileInputStream in = null;
-		FileOutputStream out = null;
-		try {
-			in = new FileInputStream(fromFile);
-			out = new FileOutputStream(toFile);
+		try (FileInputStream in = new FileInputStream(fromFile); FileOutputStream out = new FileOutputStream(toFile)) {
 			copyStream(in, out);
-		} finally {
-			if (out != null) {
-				out.close();
-			}
-			if (in != null) {
-				in.close();
-			}
 		}
 	}
 
@@ -1309,9 +1298,7 @@ public class FileUtil {
 			return "sourcePath not a readable file";
 		}
 		int lineNum = 0;
-		FileReader fin = null;
-		try {
-			fin = new FileReader(file);
+		try (FileReader fin = new FileReader(file)) {
 			BufferedReader reader = new BufferedReader(fin);
 			String line;
 			while (null != (line = reader.readLine())) {
@@ -1326,14 +1313,8 @@ public class FileUtil {
 			}
 		} catch (IOException e) {
 			return LangUtil.unqualifiedClassName(e) + " reading " + sourcePath + ":" + lineNum;
-		} finally {
-			try {
-				if (null != fin) {
-					fin.close();
-				}
-			} catch (IOException e) {
-			} // ignore
 		}
+		// ignore
 		return null;
 	}
 

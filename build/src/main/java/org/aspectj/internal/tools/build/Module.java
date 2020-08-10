@@ -364,31 +364,23 @@ public class Module {
         if (!file.exists()) {
             return false; // OSGI???
         }
-        FileReader fin = null;
-        try {
-            fin = new FileReader(file);
-            BufferedReader reader = new BufferedReader(fin);
-            String line;
-            XMLItem item = new XMLItem("classpathentry", new ICB());
-            while (null != (line = reader.readLine())) {
-                line = line.trim();
-                // dumb - only handle comment-only lines
-                if (!line.startsWith("<?xml") && !line.startsWith("<!--")) {
-                    item.acceptLine(line);
-                }
-            }
-            return (0 < (srcDirs.size() + libJars.size()));
-        } catch (IOException e) {
-            messager.logException("IOException reading " + file, e);
-        } finally {
-            if (null != fin) {
-                try {
-                    fin.close();
-                } catch (IOException e) {
-                } // ignore
-            }
-        }
-        return false;
+		try (FileReader fin = new FileReader(file)) {
+			BufferedReader reader = new BufferedReader(fin);
+			String line;
+			XMLItem item = new XMLItem("classpathentry", new ICB());
+			while (null != (line = reader.readLine())) {
+				line = line.trim();
+				// dumb - only handle comment-only lines
+				if (!line.startsWith("<?xml") && !line.startsWith("<!--")) {
+					item.acceptLine(line);
+				}
+			}
+			return (0 < (srcDirs.size() + libJars.size()));
+		} catch (IOException e) {
+			messager.logException("IOException reading " + file, e);
+		}
+		// ignore
+		return false;
     }
 
 //    private boolean update(String toString, String[] attributes) {
@@ -492,23 +484,15 @@ public class Module {
         if (!Util.canReadFile(file)) {
             return true; // no properties to read
         }
-        FileInputStream fin = null;
-        try {
-            fin = new FileInputStream(file);
-            properties.load(fin);
-            return true;
-        } catch (IOException e) {
-            messager.logException("IOException reading " + file, e);
-            return false;
-        } finally {
-            if (null != fin) {
-                try {
-                    fin.close();
-                } catch (IOException e) {
-                } // ignore
-            }
-        }
-    }
+		try (FileInputStream fin = new FileInputStream(file)) {
+			properties.load(fin);
+			return true;
+		} catch (IOException e) {
+			messager.logException("IOException reading " + file, e);
+			return false;
+		}
+		// ignore
+	}
 
     /**
      * Post-process initialization. This implementation trims java5 source dirs

@@ -120,12 +120,9 @@ public class FlatFileCacheBacking extends AsynchronousFileCacheBacking {
     @Override
     protected void writeClassBytes (String key, byte[] bytes) throws Exception {
         File    dir=getCacheDirectory(), file=new File(dir, key);
-        FileOutputStream    out=new FileOutputStream(file);
-        try {
-            out.write(bytes);
-        } finally {
-            out.close();
-        }
+		try (FileOutputStream out = new FileOutputStream(file)) {
+			out.write(bytes);
+		}
     }
 
     @Override

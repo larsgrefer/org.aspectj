@@ -451,7 +451,8 @@ class SamplesRenderer {
 
     public static final String COPYRIGHT =
         "<p><small>Copyright 2003 Contributors. All Rights Reserved. "
-        + "This sample code is made available under the Common Public "        + "License version 1.0 available at "
+        + "This sample code is made available under the Common Public "
+        + "License version 1.0 available at "
         + "<a href=\"http://www.eclipse.org/legal/epl-v10.html\">"
         + "http://www.eclipse.org/legal/epl-v10.html</a>."
         + "Contributors are listed in this document as authors. "
@@ -858,41 +859,32 @@ class SampleUtil {
         String prefix = null;
         Throwable thrown = null;
         if (result.endsWith(".java") || result.endsWith(".aj")) {
-            FileReader reader = null;
-            try {
-                reader = new FileReader(path);
-                BufferedReader br = new BufferedReader(reader);
-                String line;
-                while (null != (line = br.readLine())) {
-                    int loc = line.indexOf("package");
-                    if (-1 != loc) {
-                        int end = line.indexOf(";");
-                        if (-1 == loc) {
-                            String m = "unterminated package statement \"";
-                            throw new Error(m + line + "\" in " + path);
-                        }
-                        packag = (line.substring(loc + 7, end) + ".")
-                            .trim()
-                            .replace('.', '/');
-                        break;
-                    }
-                    loc = line.indexOf("import");
-                    if (-1 != loc) {
-                        break;
-                    }
-                }
-            } catch (IOException e) {
-                thrown = e;
-            } finally {
-                if (null != reader) {
-                    try {
-                        reader.close();
-                    } catch (IOException e1) {
-                        // ignore
-                    }
-                }
-            }
-            if (null == thrown) {
+			try (FileReader reader = new FileReader(path)) {
+				BufferedReader br = new BufferedReader(reader);
+				String line;
+				while (null != (line = br.readLine())) {
+					int loc = line.indexOf("package");
+					if (-1 != loc) {
+						int end = line.indexOf(";");
+						if (-1 == loc) {
+							String m = "unterminated package statement \"";
+							throw new Error(m + line + "\" in " + path);
+						}
+						packag = (line.substring(loc + 7, end) + ".")
+								.trim()
+								.replace('.', '/');
+						break;
+					}
+					loc = line.indexOf("import");
+					if (-1 != loc) {
+						break;
+					}
+				}
+			} catch (IOException e) {
+				thrown = e;
+			}
+			// ignore
+			if (null == thrown) {
                 javaPath = packag + path.getName();
                 int loc = result.indexOf(javaPath);
                 if (-1 == loc) {

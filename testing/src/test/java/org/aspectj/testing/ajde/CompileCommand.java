@@ -125,9 +125,7 @@ public class CompileCommand implements ICommand {
 	private File writeConfig(String[] args) {
 		tempDir = FileUtil.getTempDir("CompileCommand");
 		File result = new File(tempDir, "config.lst");
-		OutputStream out = null;
-		try {
-			out = new FileOutputStream(result);
+		try (OutputStream out = new FileOutputStream(result)) {
 			PrintStream outs = new PrintStream(out, true);
 			for (int i = 0; i < args.length; i++) {
 				outs.println(args[i]);
@@ -135,11 +133,6 @@ public class CompileCommand implements ICommand {
 			return result;
 		} catch (IOException e) {
 			return null;
-		} finally {
-			try {
-				out.close();
-			} catch (IOException e) {
-			}
 		}
 	}
 

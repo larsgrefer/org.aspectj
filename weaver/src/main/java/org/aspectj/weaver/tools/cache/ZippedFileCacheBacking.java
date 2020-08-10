@@ -262,34 +262,28 @@ public class ZippedFileCacheBacking extends AsynchronousFileCacheBacking {
         Map<String,byte[]>      result=new TreeMap<String,byte[]>();
         byte[]                  copyBuf=new byte[4096];
         ByteArrayOutputStream   out=new ByteArrayOutputStream(copyBuf.length);
-        ZipFile                 zipFile=new ZipFile(file);
-        try {
-            for (Enumeration<? extends ZipEntry> entries=zipFile.entries(); (entries != null) && entries.hasMoreElements(); ) {
-                ZipEntry    e=entries.nextElement();
-                String      name=e.getName();
-                if (LangUtil.isEmpty(name)) {
-                    continue;
-                }
+		try (ZipFile zipFile = new ZipFile(file)) {
+			for (Enumeration<? extends ZipEntry> entries = zipFile.entries(); (entries != null) && entries.hasMoreElements(); ) {
+				ZipEntry e = entries.nextElement();
+				String name = e.getName();
+				if (LangUtil.isEmpty(name)) {
+					continue;
+				}
 
-                out.reset();
+				out.reset();
 
-                InputStream zipStream=zipFile.getInputStream(e);
-                try {
-                    for (int    nRead=zipStream.read(copyBuf); nRead != (-1); nRead=zipStream.read(copyBuf)) {
-                        out.write(copyBuf, 0, nRead);
-                    }
-                } finally {
-                    zipStream.close();
-                }
+				try (InputStream zipStream = zipFile.getInputStream(e)) {
+					for (int nRead = zipStream.read(copyBuf); nRead != (-1); nRead = zipStream.read(copyBuf)) {
+						out.write(copyBuf, 0, nRead);
+					}
+				}
 
-                byte[]  data=out.toByteArray(), prev=result.put(name, data);
-                if (prev != null) {
-                    throw new StreamCorruptedException("Multiple entries for " + name);
-                }
-            }
-        } finally {
-            zipFile.close();
-        }
+				byte[] data = out.toByteArray(), prev = result.put(name, data);
+				if (prev != null) {
+					throw new StreamCorruptedException("Multiple entries for " + name);
+				}
+			}
+		}
 
         return result;
     }
@@ -305,17 +299,14 @@ public class ZippedFileCacheBacking extends AsynchronousFileCacheBacking {
             throw new IOException("Failed to create path to " + zipDir.getAbsolutePath());
         }
 
-        ZipOutputStream zipOut=new ZipOutputStream(new BufferedOutputStream(new FileOutputStream(file), 4096));
-        try {
-            for (Map.Entry<String,byte[]> bytesEntry : entriesMap.entrySet()) {
-                String      key=bytesEntry.getKey();
-                byte[]      bytes=bytesEntry.getValue();
-                zipOut.putNextEntry(new ZipEntry(key));
-                zipOut.write(bytes);
-                zipOut.closeEntry();
-            }
-        } finally {
-            zipOut.close();
-        }
+		try (ZipOutputStream zipOut = new ZipOutputStream(new BufferedOutputStream(new FileOutputStream(file), 4096))) {
+			for (Map.Entry<String, byte[]> bytesEntry : entriesMap.entrySet()) {
+				String key = bytesEntry.getKey();
+				byte[] bytes = bytesEntry.getValue();
+				zipOut.putNextEntry(new ZipEntry(key));
+				zipOut.write(bytes);
+				zipOut.closeEntry();
+			}
+		}
     }
 }

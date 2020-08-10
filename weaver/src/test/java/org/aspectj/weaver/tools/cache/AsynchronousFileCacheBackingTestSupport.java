@@ -162,12 +162,9 @@ public abstract class AsynchronousFileCacheBackingTestSupport
         }
         
         File    		parent=getCacheDir(), file=new File(parent, key);
-        OutputStream    out=new FileOutputStream(file);
-        try {
-            out.write(dataBytes);
-        } finally { 
-            out.close();
-        }
+		try (OutputStream out = new FileOutputStream(file)) {
+			out.write(dataBytes);
+		}
 
         return file;
     }

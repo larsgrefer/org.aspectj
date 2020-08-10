@@ -67,19 +67,11 @@ public class EmacsStructureModelManager {
 		// source files have source locations
 		String sourceName = node.getSourceLocation().getSourceFile().getAbsolutePath();
 		String fileName = sourceName.substring(0, sourceName.lastIndexOf(".")) + EXTERN_FILE_SUFFIX;
-		BufferedWriter writer = null;
-		try {
-			writer = new BufferedWriter(new FileWriter(new File(fileName)));
+		try (BufferedWriter writer = new BufferedWriter(new FileWriter(new File(fileName)))) {
 			new SExpressionPrinter(writer).printDecls(node);
 			writer.flush();
-		} finally {
-			if (writer != null) {
-				try {
-					writer.close();
-				} catch (IOException e) {
-				} // ignore
-			}
 		}
+		// ignore
 	}
 
 	/**

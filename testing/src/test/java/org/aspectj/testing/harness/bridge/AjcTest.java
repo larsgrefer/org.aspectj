@@ -207,36 +207,27 @@ public class AjcTest extends RunSpecIterator {
          */
         private static List<String> readTitlesFile(File titlesFile, boolean fail) {
             ArrayList<String> result = new ArrayList<String>();
-            Reader reader = null;
-            try {
-                reader = new FileReader(titlesFile);
-                BufferedReader lines = new BufferedReader(reader);
-                String line;
-                while (null != (line = lines.readLine())) {
-                    if ((line.startsWith("FAIL ")
-                        || (!fail && line.startsWith("PASS ")))
-                        && (!line.substring(5).startsWith("Suite.Spec("))) {
-                        String title = line.substring(5);
-                        int loc = title.lastIndexOf("(");
-                        if (-1 != loc) {
-                            title = title.substring(0, loc);
-                        }
-                        result.add(title);
-                    }
-                }
-            } catch (IOException e) {
-                System.err.println("ignoring titles in " + titlesFile); // XXX messages
-                e.printStackTrace(System.err);
-            } finally {
-                if (null != reader) {
-                    try {
-                        reader.close();
-                    } catch (IOException e) {
-                        // ignore
-                    }
-                }
-            }
-            return Collections.unmodifiableList(result);
+			try (Reader reader = new FileReader(titlesFile)) {
+				BufferedReader lines = new BufferedReader(reader);
+				String line;
+				while (null != (line = lines.readLine())) {
+					if ((line.startsWith("FAIL ")
+							|| (!fail && line.startsWith("PASS ")))
+							&& (!line.substring(5).startsWith("Suite.Spec("))) {
+						String title = line.substring(5);
+						int loc = title.lastIndexOf("(");
+						if (-1 != loc) {
+							title = title.substring(0, loc);
+						}
+						result.add(title);
+					}
+				}
+			} catch (IOException e) {
+				System.err.println("ignoring titles in " + titlesFile); // XXX messages
+				e.printStackTrace(System.err);
+			}
+			// ignore
+			return Collections.unmodifiableList(result);
         }
         
         /** base directory of the test suite - set before making run */

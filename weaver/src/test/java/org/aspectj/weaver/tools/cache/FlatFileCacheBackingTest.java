@@ -79,11 +79,8 @@ public class FlatFileCacheBackingTest extends AsynchronousFileCacheBackingTestSu
 			String key = entry.key;
 			if (key.startsWith("badData")) {
 				File file = dataFiles.get(key);
-				OutputStream out = new FileOutputStream(file);
-				try {
+				try (OutputStream out = new FileOutputStream(file)) {
 					out.write(bytes);
-				} finally {
-					out.close();
 				}
 				dataFiles.remove(key);
 				badFiles.put(key, file);

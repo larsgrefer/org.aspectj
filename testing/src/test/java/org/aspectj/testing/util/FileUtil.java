@@ -498,17 +498,13 @@ public class FileUtil {
 
         out.putNextEntry(entry);
 
-        InputStream input = null;
-        try {
-            input = new FileInputStream(in);
-            byte[] buf = new byte[1024];
-            int count;
-            while (0 < (count = input.read(buf, 0, buf.length))) {
-                out.write(buf, 0, count);
-            }
-        } finally {
-            if (null != input) input.close(); 
-        }
+		try (InputStream input = new FileInputStream(in)) {
+			byte[] buf = new byte[1024];
+			int count;
+			while (0 < (count = input.read(buf, 0, buf.length))) {
+				out.write(buf, 0, count);
+			}
+		}
     }    
 
 

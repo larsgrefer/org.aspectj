@@ -200,13 +200,8 @@ public class JRockitAgentTest extends TestCase {
 
 			byte[] bytes;
 			bytes = new byte[(int) file.length()];
-			FileInputStream fis = null;
-			try {
-				fis = new FileInputStream(file);
+			try (FileInputStream fis = new FileInputStream(file)) {
 				bytes = readBytes(fis, bytes);
-			} finally {
-				if (fis != null)
-					fis.close();
 			}
 
 			return bytes;
@@ -218,13 +213,8 @@ public class JRockitAgentTest extends TestCase {
 
 			byte[] bytes;
 			bytes = new byte[(int) entry.getSize()];
-			InputStream is = null;
-			try {
-				is = jar.getInputStream(entry);
+			try (InputStream is = jar.getInputStream(entry)) {
 				bytes = readBytes(is, bytes);
-			} finally {
-				if (is != null)
-					is.close();
 			}
 
 			return bytes;

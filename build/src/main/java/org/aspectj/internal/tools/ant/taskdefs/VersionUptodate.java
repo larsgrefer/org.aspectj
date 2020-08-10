@@ -93,52 +93,34 @@ public class VersionUptodate extends Task {
 	 */
 	private boolean sameVersion(File versionSource, String buildVersion) {
         // XXX build and load instead of scanning?
-        FileReader fileReader = null;
-        try {
-            fileReader = new FileReader(versionSource);
-            BufferedReader reader = new BufferedReader(fileReader);
-            String line;
-            while (null != (line = reader.readLine())) {
-                int loc = line.indexOf("static final String text = ");
-                if (-1 != loc) {
-                    return (-1 != line.indexOf(buildVersion , loc));
-                }
-            }
-            return false;
-        } catch (IOException e) {
-            return false;
-        } finally {
-            if (null != fileReader) {
-                try {
-                    fileReader.close();
-                } catch (IOException e) {
-                }
-            }
-        }        
+		try (FileReader fileReader = new FileReader(versionSource)) {
+			BufferedReader reader = new BufferedReader(fileReader);
+			String line;
+			while (null != (line = reader.readLine())) {
+				int loc = line.indexOf("static final String text = ");
+				if (-1 != loc) {
+					return (-1 != line.indexOf(buildVersion, loc));
+				}
+			}
+			return false;
+		} catch (IOException e) {
+			return false;
+		}
 	}
     
     /**
      * Create file with contents
      */
     private void createFile(File versionTagFile, String contents) {
-        FileWriter writer = null;
-        try {
-            writer = new FileWriter(versionTagFile);
-            char[] buf = new char[contents.length()];
-            contents.getChars(0, buf.length, buf, 0);
-            writer.write(contents);
-        } catch (IOException e) {
-            throw new BuildException("writing " + versionTagFile, e);
-        } finally {
-            if (null != writer) {
-                try {
-                    writer.close();
-                } catch (IOException e){
-                    // ignore
-                }
-            }
-        }
-    }
+		try (FileWriter writer = new FileWriter(versionTagFile)) {
+			char[] buf = new char[contents.length()];
+			contents.getChars(0, buf.length, buf, 0);
+			writer.write(contents);
+		} catch (IOException e) {
+			throw new BuildException("writing " + versionTagFile, e);
+		}
+		// ignore
+	}
     
 } 
 

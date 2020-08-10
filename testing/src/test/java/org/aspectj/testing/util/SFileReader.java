@@ -97,67 +97,59 @@ public class SFileReader {
         } else if (!file.isAbsolute()) {
             throw new IllegalArgumentException("file not absolute");
         }
-        UtilLineReader reader = null;
-        try {
-            reader = UtilLineReader.createTester(file);
-            if (null == reader) {
-                throw new IOException("no reader for " + file);
-            }
-            final String baseDir = file.getParent();
-    
-            String line;
-            boolean skipEmpties = true;
-            while (null != (line = reader.nextLine(skipEmpties))) {
-                if (line.charAt(0) == '@') {
-                    if (line.length() > 1) {
-                        String newFilePath = line.substring(1).trim();
-                        File newFile = new File(newFilePath);
-                        if (!newFile.isAbsolute()) {
-                            newFile = new File(baseDir, newFilePath);
-                        }
-                        Node node = readNodes(newFile, selector, abortOnReadError, err);
-                        if (!result.addNode(node)) {
-                            // XXX signal error?
-                            System.err.println("warning: unable to add node: " + node);
-                            break;
-                        }
-                    }
-                } else {
-                    try {
-                        Object made = maker.make(reader);
-                        if ((null == selector) || (selector.isValid(made))) {
-                            if (!result.add(made)) { 
-                               break;  // XXX signal error?
-                            }
-                        }
-                    } catch (AbortException e) {
-                        if (abortOnReadError) { // XXX todo - verify message has context?
-                           throw e;
-                        }
-                        if (null != err) {
-                            String m;
-                            IMessage mssg = e.getIMessage();
-                            if (null != mssg) {
-                                m = "Message: " + mssg;
-                            } else {
-                                m = LangUtil.unqualifiedClassName(e) + "@" + e.getMessage();
-                            }
-                            err.println(m);
-                        }
-                        reader.readToBlankLine();
-                    }
-                } 
-            }
-        } finally {
-            try {
-                if (null != reader) {
-                    reader.close();
-                }
-            } catch (IOException e) {
-            } // ignore
-        }
-        
-        return result;
+		try (UtilLineReader reader = UtilLineReader.createTester(file)) {
+			if (null == reader) {
+				throw new IOException("no reader for " + file);
+			}
+			final String baseDir = file.getParent();
+
+			String line;
+			boolean skipEmpties = true;
+			while (null != (line = reader.nextLine(skipEmpties))) {
+				if (line.charAt(0) == '@') {
+					if (line.length() > 1) {
+						String newFilePath = line.substring(1).trim();
+						File newFile = new File(newFilePath);
+						if (!newFile.isAbsolute()) {
+							newFile = new File(baseDir, newFilePath);
+						}
+						Node node = readNodes(newFile, selector, abortOnReadError, err);
+						if (!result.addNode(node)) {
+							// XXX signal error?
+							System.err.println("warning: unable to add node: " + node);
+							break;
+						}
+					}
+				} else {
+					try {
+						Object made = maker.make(reader);
+						if ((null == selector) || (selector.isValid(made))) {
+							if (!result.add(made)) {
+								break;  // XXX signal error?
+							}
+						}
+					} catch (AbortException e) {
+						if (abortOnReadError) { // XXX todo - verify message has context?
+							throw e;
+						}
+						if (null != err) {
+							String m;
+							IMessage mssg = e.getIMessage();
+							if (null != mssg) {
+								m = "Message: " + mssg;
+							} else {
+								m = LangUtil.unqualifiedClassName(e) + "@" + e.getMessage();
+							}
+							err.println(m);
+						}
+						reader.readToBlankLine();
+					}
+				}
+			}
+		}
+		// ignore
+
+		return result;
     }
     
     /** factory produces objects by reading LineReader */

@@ -185,32 +185,26 @@ public class TestDiffs { // XXX pretty dumb implementation
             config = file.getPath();
         }
         ArrayList result = new ArrayList();
-        FileReader in = null;
-        try {
-            in = new FileReader(file);
-            BufferedReader input = new BufferedReader(in);
-            String line;
-            // XXX handle stream interleaving more carefully
-            // XXX clip trailing ()
-            // XXX fix elision in test name rendering by -traceTestsMin?
-            while (null != (line = input.readLine())) {
-                boolean pass = line.startsWith("PASS");
-                boolean fail = false;
-                if (!pass) {
-                    fail = line.startsWith("FAIL");
-                }
-                if (pass || fail) {
-                    String test = line.substring(4).trim();
-                    result.add(new TestResult(test, config, pass));
-                }
-            }
-        } finally {
-            if (null != in) {
-                try { in.close(); }
-                catch (IOException e) {} // ignore
-            }
-        }
-        return result;
+		try (FileReader in = new FileReader(file)) {
+			BufferedReader input = new BufferedReader(in);
+			String line;
+			// XXX handle stream interleaving more carefully
+			// XXX clip trailing ()
+			// XXX fix elision in test name rendering by -traceTestsMin?
+			while (null != (line = input.readLine())) {
+				boolean pass = line.startsWith("PASS");
+				boolean fail = false;
+				if (!pass) {
+					fail = line.startsWith("FAIL");
+				}
+				if (pass || fail) {
+					String test = line.substring(4).trim();
+					result.add(new TestResult(test, config, pass));
+				}
+			}
+		}
+		// ignore
+		return result;
     }
     
     private static List safeList(List list) {

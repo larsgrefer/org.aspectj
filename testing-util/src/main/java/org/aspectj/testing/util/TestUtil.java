@@ -838,16 +838,10 @@ public final class TestUtil {
 	private static class TextLineator extends Lineator {
 
 		protected void lineate(PrintStream sink, IMessageHandler handler, File basedir, File file) throws IOException {
-			InputStream in = null;
-			try {
-				in = new FileInputStream(file);
+			try (InputStream in = new FileInputStream(file)) {
 				FileUtil.copyStream(new DataInputStream(in), sink);
-			} finally {
-				try {
-					in.close();
-				} catch (IOException e) {
-				} // ignore
 			}
+			// ignore
 		}
 	}
 

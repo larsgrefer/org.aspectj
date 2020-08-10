@@ -474,67 +474,58 @@ public class Ajc2 extends Javac {
         }
 
         // Read the file
-        BufferedReader in = null;
-        try {
-            in = new BufferedReader(new FileReader(argfile));
-            String line;
-            while ((line = in.readLine()) != null) {
-                line = line.trim();
+		try (BufferedReader in = new BufferedReader(new FileReader(argfile))) {
+			String line;
+			while ((line = in.readLine()) != null) {
+				line = line.trim();
 
-                // Skip blank lines
-                if ("".equals(line)) {
-                    continue;
-                }
+				// Skip blank lines
+				if ("".equals(line)) {
+					continue;
+				}
 
-                // Allow '#' and '//' line comments
-                int isharp = line.indexOf("#");
-                if (isharp != -1) {
-                    line = line.substring(0, isharp);
-                }
+				// Allow '#' and '//' line comments
+				int isharp = line.indexOf("#");
+				if (isharp != -1) {
+					line = line.substring(0, isharp);
+				}
 
 //                int istar = -1;
 
-                // Argument
-                if (line.startsWith("-")) {
-                    arguments.add(line);
-                }
+				// Argument
+				if (line.startsWith("-")) {
+					arguments.add(line);
+				}
 
-                // If there are stars we'll try to resolve the file here
-                else if (line.indexOf("*") != -1) {
-                    log("The argfile line '" + line + "' is invalid",
-                        Project.MSG_WARN);
-                }
+				// If there are stars we'll try to resolve the file here
+				else if (line.indexOf("*") != -1) {
+					log("The argfile line '" + line + "' is invalid",
+							Project.MSG_WARN);
+				}
 
-                // Another argfile
-                else if (line.startsWith("@")) {
-                    String newArgfileName = line.substring(1);
-                    File newArgfile = new File(parent, newArgfileName);
-                    expandArgfile(newArgfile, includes, arguments);
-                }
+				// Another argfile
+				else if (line.startsWith("@")) {
+					String newArgfileName = line.substring(1);
+					File newArgfile = new File(parent, newArgfileName);
+					expandArgfile(newArgfile, includes, arguments);
+				}
 
-                // Source file
-                else {
-                    File newfile = new File(line);
-                    if (!newfile.isAbsolute()) {
-                        newfile = new File(parent, line);
-                    }
-                    if (newfile != null && newfile.exists() &&
-                        !newfile.isDirectory() &&
-                        newfile.getName().endsWith(".java")) {
-                        includes.add(newfile);
-                    }
-                }
+				// Source file
+				else {
+					File newfile = new File(line);
+					if (!newfile.isAbsolute()) {
+						newfile = new File(parent, line);
+					}
+					if (newfile != null && newfile.exists() &&
+							!newfile.isDirectory() &&
+							newfile.getName().endsWith(".java")) {
+						includes.add(newfile);
+					}
+				}
 
-            }
-        } catch (IOException ioe) {
-            log("trouble with argfile: " + argfile + ":" + ioe, Project.MSG_ERR);
-        } finally {
-            try {
-                if (in != null) {
-                    in.close();
-                }
-            } catch (IOException ioe2) {
-            }
-        }
+			}
+		} catch (IOException ioe) {
+			log("trouble with argfile: " + argfile + ":" + ioe, Project.MSG_ERR);
+		}
     }
 }

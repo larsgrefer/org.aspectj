@@ -364,12 +364,9 @@ public abstract class AbstractCacheBackingTestSupport extends TestCase {
             return;
         }
 
-        ObjectOutputStream oos=new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(indexFile), 4096));
-        try {
-            oos.writeObject(entryValues);
-        } finally {
-            oos.close();
-        }
+		try (ObjectOutputStream oos = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(indexFile), 4096))) {
+			oos.writeObject(entryValues);
+		}
     }
 
     public static final void assertArrayEquals (String msg, byte[] expected, byte[] actual) {

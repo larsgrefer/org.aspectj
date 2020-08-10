@@ -479,9 +479,7 @@ public class AjBuildManager implements IOutputClassFileNameProvider, IBinarySour
 	}
 
 	private void copyResourcesFromJarFile(File jarFile) throws IOException {
-		JarInputStream inStream = null;
-		try {
-			inStream = new JarInputStream(new FileInputStream(jarFile));
+		try (JarInputStream inStream = new JarInputStream(new FileInputStream(jarFile))) {
 			while (true) {
 				ZipEntry entry = inStream.getNextEntry();
 				if (entry == null) {
@@ -498,10 +496,6 @@ public class AjBuildManager implements IOutputClassFileNameProvider, IBinarySour
 				}
 
 				inStream.closeEntry();
-			}
-		} finally {
-			if (inStream != null) {
-				inStream.close();
 			}
 		}
 	}
@@ -532,9 +526,7 @@ public class AjBuildManager implements IOutputClassFileNameProvider, IBinarySour
 		if (!acceptResource(filename, true)) {
 			return;
 		}
-		FileInputStream fis = null;
-		try {
-			fis = new FileInputStream(f);
+		try (FileInputStream fis = new FileInputStream(f)) {
 			byte[] bytes = FileUtil.readAsByteArray(fis);
 			// String relativePath = files[i].getPath();
 
@@ -542,10 +534,6 @@ public class AjBuildManager implements IOutputClassFileNameProvider, IBinarySour
 		} catch (FileNotFoundException fnfe) {
 			// pr359332: looks like the file moved (refactoring?) just as this copy was starting
 			// that is OK
-		} finally {
-			if (fis != null) {
-				fis.close();
-			}
 		}
 	}
 

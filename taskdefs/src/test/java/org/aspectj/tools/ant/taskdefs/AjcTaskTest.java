@@ -483,9 +483,7 @@ public class AjcTaskTest extends TestCase {
 		assertEquals("-argfile", newArgs[0]);
 		File file = new File(newArgs[1]);
 		assertTrue("readable newArgs[1]" + label, file.canRead());
-		FileReader fin = null;
-		try {
-			fin = new FileReader(file);
+		try (FileReader fin = new FileReader(file)) {
 			BufferedReader reader = new BufferedReader(fin);
 			String line;
 			int i = 0;
@@ -496,13 +494,7 @@ public class AjcTaskTest extends TestCase {
 		} catch (IOException e) {
 			assertTrue("IOException " + e.getMessage(), false);
 		} finally {
-			if (null != fin) {
-				try {
-					fin.close();
-				} catch (IOException e) {
-					// ignore
-				}
-			}
+			// ignore
 			file.delete();
 		}
 	}

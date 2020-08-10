@@ -270,12 +270,9 @@ public class AJInstaller extends MatchingTask {
         if ( !vPath.startsWith("$installer$") ) {
             addToContents(file, vPath);
         }
-        FileInputStream fIn = new FileInputStream(file);
-        try {
-            zipFile(fIn, zOut, vPath, file.lastModified());
-        } finally {
-            fIn.close();
-        }
+		try (FileInputStream fIn = new FileInputStream(file)) {
+			zipFile(fIn, zOut, vPath, file.lastModified());
+		}
     }
     private File setupTempDir() throws BuildException {
         File tmpDirF = null;
@@ -320,31 +317,22 @@ public class AJInstaller extends MatchingTask {
         String[] files = ds.getIncludedFiles();
         String[] dirs  = ds.getIncludedDirectories();
         log("Building installer: "+ zipFile.getAbsolutePath());
-        ZipOutputStream zOut = null;
-        try {
-            zOut = new ZipOutputStream(new FileOutputStream(zipFile));
-            if (doCompress) {
-                zOut.setMethod(ZipOutputStream.DEFLATED);
-            } else {
-                zOut.setMethod(ZipOutputStream.STORED);
-            }
-            initZipOutputStream(zOut);
-            writeDirs(zOut, dirs);
-            writeFiles(zOut, files);
-            finishZipOutputStream(zOut); // deletes temp dir
-        } catch (IOException ioe) {
-            String msg = "Problem creating " + archiveType + " " + ioe.getMessage();
-            throw new BuildException(msg, ioe, location);
-        } finally {
-            if (zOut != null) {
-                try {
-                    // close up
-                    zOut.close();
-                }
-                catch (IOException e) {}
-            }
-        }
-    }
+		try (ZipOutputStream zOut = new ZipOutputStream(new FileOutputStream(zipFile))) {
+			if (doCompress) {
+				zOut.setMethod(ZipOutputStream.DEFLATED);
+			} else {
+				zOut.setMethod(ZipOutputStream.STORED);
+			}
+			initZipOutputStream(zOut);
+			writeDirs(zOut, dirs);
+			writeFiles(zOut, files);
+			finishZipOutputStream(zOut); // deletes temp dir
+		} catch (IOException ioe) {
+			String msg = "Problem creating " + archiveType + " " + ioe.getMessage();
+			throw new BuildException(msg, ioe, location);
+		}
+		// close up
+	}
 
     protected void writeDirs(ZipOutputStream zOut, String[] dirs) throws IOException {
         for (int i = 0; i < dirs.length; i++) {

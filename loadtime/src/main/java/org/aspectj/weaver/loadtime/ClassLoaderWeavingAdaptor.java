@@ -383,9 +383,7 @@ public class ClassLoaderWeavingAdaptor extends WeavingAdaptor {
 
 		/* Third load user file using -Xlintfile so that -Xlint wins */
 		if (weaverOption.lintFile != null) {
-			InputStream resource = null;
-			try {
-				resource = loader.getResourceAsStream(weaverOption.lintFile);
+			try (InputStream resource = loader.getResourceAsStream(weaverOption.lintFile)) {
 				Exception failure = null;
 				if (resource != null) {
 					try {
@@ -403,11 +401,6 @@ public class ClassLoaderWeavingAdaptor extends WeavingAdaptor {
 					// IMessage.WARNING,
 					// failure,
 					// null));
-				}
-			} finally {
-				try {
-					resource.close();
-				} catch (Throwable t) {
 				}
 			}
 		}

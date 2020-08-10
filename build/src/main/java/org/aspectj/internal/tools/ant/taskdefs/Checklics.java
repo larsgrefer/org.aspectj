@@ -390,10 +390,8 @@ public class Checklics extends MatchingTask {
 		public boolean checkFile(final File file) {
 			clear();
 			// boolean result = false;
-			BufferedReader input = null;
 			int lineNum = 0;
-			try {
-				input = new BufferedReader(new FileReader(file));
+			try (BufferedReader input = new BufferedReader(new FileReader(file))) {
 				String line;
 				while (!gotValidFile() && (line = input.readLine()) != null) {
 					lineNum++;
@@ -402,14 +400,8 @@ public class Checklics extends MatchingTask {
 			} catch (IOException e) {
 				System.err.println("reading line " + lineNum + " of " + file);
 				e.printStackTrace(System.err);
-			} finally {
-				if (null != input) {
-					try {
-						input.close();
-					} catch (IOException e) {
-					} // ignore
-				}
 			}
+			// ignore
 			return gotValidFile();
 		}
 
@@ -620,10 +612,8 @@ class Header {
 	public static HeaderInfo checkFile(final File file) {
 		ArrayList<String> years = new ArrayList<String>();
 		int endLine = 0;
-		BufferedReader input = null;
 		int lineNum = 0;
-		try {
-			input = new BufferedReader(new FileReader(file));
+		try (BufferedReader input = new BufferedReader(new FileReader(file))) {
 			String line;
 			while (null != (line = input.readLine())) {
 				lineNum++;
@@ -639,14 +629,8 @@ class Header {
 		} catch (IOException e) {
 			System.err.println("reading line " + lineNum + " of " + file);
 			e.printStackTrace(System.err);
-		} finally {
-			if (null != input) {
-				try {
-					input.close();
-				} catch (IOException e) {
-				} // ignore
-			}
 		}
+		// ignore
 		return new HeaderInfo(file, endLine, years, endLine > 0);
 	}
 

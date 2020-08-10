@@ -101,14 +101,11 @@ public class AjcSpecXmlReader {
      */
     public static void writeDTD(File dtdFile) throws IOException {
         LangUtil.throwIaxIfNull(dtdFile, "dtdFile");
-        PrintWriter out = new PrintWriter(new FileWriter(dtdFile));
-        try {
-            out.println("<!-- document type for ajc test suite - see " 
-                        + AjcSpecXmlReader.class.getName() + " -->");
-            //out.println(getDocType());
-        } finally {
-            out.close();
-        }        
+		try (PrintWriter out = new PrintWriter(new FileWriter(dtdFile))) {
+			out.println("<!-- document type for ajc test suite - see "
+					+ AjcSpecXmlReader.class.getName() + " -->");
+			//out.println(getDocType());
+		}
     }
 
     private static final String[] LOG = new String[] {"info", "debug", "trace" };
