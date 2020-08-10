@@ -660,17 +660,7 @@ public final class TestUtil {
 				}
 			}
 
-		} catch (ClassNotFoundException e) {
-			thrown = e;
-		} catch (SecurityException e) {
-			thrown = e;
-		} catch (NoSuchMethodException e) {
-			thrown = e;
-		} catch (IllegalArgumentException e) {
-			thrown = e;
-		} catch (IllegalAccessException e) {
-			thrown = e;
-		} catch (InvocationTargetException e) {
+		} catch (ClassNotFoundException | InvocationTargetException | IllegalAccessException | IllegalArgumentException | NoSuchMethodException | SecurityException e) {
 			thrown = e;
 		}
 		if (null != thrown) {
@@ -898,11 +888,7 @@ public final class TestUtil {
 				Class c = Class.forName("org.aspectj.weaver.bcel.LazyClassGen");
 				Method m = c.getMethod("disassemble", new Class[] { String.class, String.class, PrintStream.class });
 				m.invoke(null, new Object[] { basedirPath, name, out });
-			} catch (ClassNotFoundException e) {
-				thrown = e;
-			} catch (NoSuchMethodException e) {
-				thrown = e;
-			} catch (IllegalAccessException e) {
+			} catch (ClassNotFoundException | IllegalAccessException | NoSuchMethodException e) {
 				thrown = e;
 			} catch (InvocationTargetException e) {
 				Throwable t = e.getTargetException();

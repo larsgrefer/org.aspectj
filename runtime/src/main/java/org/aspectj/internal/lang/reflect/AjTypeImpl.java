@@ -875,9 +875,7 @@ public class AjTypeImpl<T> implements AjType<T> {
 						 deows.add(deow);
 					 } 				
 				}
-			} catch (IllegalArgumentException e) {
-				// just move on to the next field
-			} catch (IllegalAccessException e) {
+			} catch (IllegalArgumentException | IllegalAccessException e) {
 				// just move on to the next field
 			}
 		}

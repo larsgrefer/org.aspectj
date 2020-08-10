@@ -995,8 +995,6 @@ public class BcelWorld extends World implements Repository {
 			try {
 				Definition d = DocumentParser.parse(xmlfile.toURI().toURL());
 				xmlConfiguration.add(d);
-			} catch (MalformedURLException e) {
-				raiseError("Unexpected problem processing XML config file '" + xmlfile.getName() + "' :" + e.getMessage());
 			} catch (Exception e) {
 				raiseError("Unexpected problem processing XML config file '" + xmlfile.getName() + "' :" + e.getMessage());
 			}

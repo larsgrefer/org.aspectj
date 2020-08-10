@@ -77,11 +77,10 @@ public class StatefulNameEnvironment implements IModuleAwareNameEnvironment {
 						.toCharArray()), null /* no access restriction */);
 				this.inflatedClassFilesCache.put(name, ret);
 				return ret;
-			} catch (ClassFormatException e) {
+			} catch (ClassFormatException | IOException e) {
 				return null; // !!! seems to match FileSystem behavior
-			} catch (IOException ex) {
-				return null; // see above...
-			}
+			} // see above...
+
 		}
 	}
 

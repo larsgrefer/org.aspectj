@@ -35,11 +35,7 @@ class JavadocRunner {
 			Class jdMainClass = com.sun.tools.javadoc.Main.class;
 			Class[] paramTypes = new Class[] { String[].class };
 			jdMainClass.getMethod("execute", paramTypes);
-		} catch (NoClassDefFoundError e) {
-			return false;
-		} catch (UnsupportedClassVersionError e) {
-			return false;
-		} catch (NoSuchMethodException e) {
+		} catch (NoClassDefFoundError | NoSuchMethodException | UnsupportedClassVersionError e) {
 			return false;
 		}
 		return true;
@@ -84,11 +80,7 @@ class JavadocRunner {
 			}
 			try {
 				executeMethod.invoke(null, new Object[] { javadocargs });
-			} catch (IllegalArgumentException e1) {
-				throw new RuntimeException("Failed to invoke javadoc");
-			} catch (IllegalAccessException e1) {
-				throw new RuntimeException("Failed to invoke javadoc");
-			} catch (InvocationTargetException e1) {
+			} catch (IllegalArgumentException | InvocationTargetException | IllegalAccessException e1) {
 				throw new RuntimeException("Failed to invoke javadoc");
 			}
 			// main method is documented as calling System.exit() - which stops us dead in our tracks

@@ -482,12 +482,9 @@ public class Main implements Config {
 					args[counter] = it.next();
 					counter++;
 				}
-			} catch (FileNotFoundException e) {
+			} catch (IOException e) {
 				System.err.println("> could not read arg file: " + argFile);
 				e.printStackTrace();
-			} catch (IOException ioe) {
-				System.err.println("> could not read arg file: " + argFile);
-				ioe.printStackTrace();
 			}
 		}
 		List<String> vargs = new LinkedList<String>(Arrays.asList(args));

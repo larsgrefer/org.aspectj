@@ -181,8 +181,7 @@ public class LTWWorld extends BcelWorld implements IReflectionWorld {
 		if (concurrentMapClass != null) {
 			try {
 				return (Map) concurrentMapClass.newInstance();
-			} catch (InstantiationException ie) {
-			} catch (IllegalAccessException iae) {
+			} catch (InstantiationException | IllegalAccessException ie) {
 			}
 			// fall through if exceptions
 		}

@@ -739,9 +739,7 @@ public class AjState implements CompilerConfigurationChangeFlags, TypeDelegateRe
 			ClassFileReader cfr;
 			try {
 				cfr = ClassFileReader.read(file);
-			} catch (ClassFormatException e) {
-				return true;
-			} catch (IOException e) {
+			} catch (ClassFormatException | IOException e) {
 				return true;
 			}
 			className = cfr.getName();

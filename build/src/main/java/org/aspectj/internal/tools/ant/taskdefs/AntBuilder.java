@@ -288,9 +288,7 @@ public class AntBuilder extends Builder {
 			passed = executeTask(AspectJSupport.wrapIfNeeded(result, javac));
 		} catch (BuildException e) {
 			failure = e;
-		} catch (Error e) {
-			failure = new BuildException(e);
-		} catch (RuntimeException e) {
+		} catch (Error | RuntimeException e) {
 			failure = new BuildException(e);
 		} finally {
 			if (!passed) {

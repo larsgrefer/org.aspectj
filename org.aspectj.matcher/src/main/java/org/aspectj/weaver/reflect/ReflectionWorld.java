@@ -125,10 +125,8 @@ public class ReflectionWorld extends World implements IReflectionWorld {
 			}
 		} catch (ClassNotFoundException ex) {
 			// must be on 1.4 or earlier
-		} catch (IllegalAccessException ex) {
+		} catch (IllegalAccessException | InstantiationException ex) {
 			// not so good
-			throw new BCException("AspectJ internal error", ex);
-		} catch (InstantiationException ex) {
 			throw new BCException("AspectJ internal error", ex);
 		}
 		return annotationFinder;

@@ -101,17 +101,8 @@ public class ReflectionBasedReferenceTypeDelegateFactory {
 				// drop through and create a 14 provider...
 				// throw new
 				// IllegalStateException("Attempted to create Java 1.5 generic signature provider but org.aspectj.weaver.reflect.Java15GenericSignatureInformationProvider was not found on classpath");
-			} catch (NoSuchMethodException nsmEx) {
+			} catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException nsmEx) {
 				throw new IllegalStateException("Attempted to create Java 1.5 generic signature provider but: " + nsmEx
-						+ " occured");
-			} catch (InstantiationException insEx) {
-				throw new IllegalStateException("Attempted to create Java 1.5 generic signature provider but: " + insEx
-						+ " occured");
-			} catch (InvocationTargetException invEx) {
-				throw new IllegalStateException("Attempted to create Java 1.5 generic signature provider but: " + invEx
-						+ " occured");
-			} catch (IllegalAccessException illAcc) {
-				throw new IllegalStateException("Attempted to create Java 1.5 generic signature provider but: " + illAcc
 						+ " occured");
 			}
 		}

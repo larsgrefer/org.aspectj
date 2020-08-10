@@ -77,9 +77,7 @@ public class Reflection {
 	public static Object getStaticField(Class<?> class_, String name) {
 		try {
 			return class_.getField(name).get(null);
-		} catch (IllegalAccessException e) {
-			throw new RuntimeException("unimplemented");
-		} catch (NoSuchFieldException e) {
+		} catch (IllegalAccessException | NoSuchFieldException e) {
 			throw new RuntimeException("unimplemented");
 		}
 	}

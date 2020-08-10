@@ -133,9 +133,7 @@ public abstract class AjAttribute {
 				w.getMessageHandler().handleMessage(MessageUtil.warn("unknown attribute encountered " + name));
 				return null;
 			}
-		} catch (BCException e) {
-			throw new BCException("malformed " + name + " attribute (length:" + bytes.length + ")" + e);
-		} catch (IOException e) {
+		} catch (BCException | IOException e) {
 			throw new BCException("malformed " + name + " attribute (length:" + bytes.length + ")" + e);
 		}
 	}

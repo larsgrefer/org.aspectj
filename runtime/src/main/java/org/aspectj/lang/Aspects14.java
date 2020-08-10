@@ -42,13 +42,11 @@ public class Aspects14 {
     public static Object aspectOf(Class aspectClass) throws NoAspectBoundException {
         try {
             return getSingletonOrThreadAspectOf(aspectClass).invoke(null, EMPTY_OBJECT_ARRAY);
-        } catch (InvocationTargetException e) {
+        } catch (Exception e) {
         	//FIXME asc Highly temporary change to see what the build makes of it - dont use 1.4 APIs
             throw new NoAspectBoundException(aspectClass.getName(), e);//e.getCause());
-        } catch (Exception e) {
-            throw new NoAspectBoundException(aspectClass.getName(), e);
         }
-    }
+	}
 
     /**
      * Returns the perthis / pertarget aspect
@@ -60,13 +58,11 @@ public class Aspects14 {
     public static Object aspectOf(Class aspectClass, Object perObject) throws NoAspectBoundException {
         try {
             return getPerObjectAspectOf(aspectClass).invoke(null, new Object[]{perObject});
-        } catch (InvocationTargetException e) {
+        } catch (Exception e) {
         	//FIXME asc Highly temporary change to see what the build makes of it - dont use 1.4 APIs
             throw new NoAspectBoundException(aspectClass.getName(), e);//e.getCause());
-        } catch (Exception e) {
-            throw new NoAspectBoundException(aspectClass.getName(), e);
         }
-    }
+	}
 
     /**
      * Returns the pertypewithin aspect
@@ -78,13 +74,11 @@ public class Aspects14 {
     public static Object aspectOf(Class aspectClass, Class perTypeWithin) throws NoAspectBoundException {
         try {
             return getPerTypeWithinAspectOf(aspectClass).invoke(null, new Object[]{perTypeWithin});
-        } catch (InvocationTargetException e) {
+        } catch (Exception e) {
 //        	FIXME asc Highly temporary change to see what the build makes of it - dont use 1.4 APIs
             throw new NoAspectBoundException(aspectClass.getName(), e);//e.getCause());
-        } catch (Exception e) {
-            throw new NoAspectBoundException(aspectClass.getName(), e);
         }
-    }
+	}
 
     /**
      * Returns true if singleton aspect or percflow / percflowbelow aspect is bound

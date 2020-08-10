@@ -53,11 +53,7 @@ public class Main {
 				Method main = ajc.getMethod("main", new Class[] { String[].class });
 				main.invoke(null, new Object[] { args });
 				return true;
-			} catch (ClassNotFoundException e) {
-				report(e);
-			} catch (NoSuchMethodException e) {
-				report(e);
-			} catch (IllegalAccessException e) {
+			} catch (ClassNotFoundException | IllegalAccessException | NoSuchMethodException e) {
 				report(e);
 			} catch (InvocationTargetException e) {
 				report(e.getTargetException());

@@ -43,13 +43,11 @@ public class Aspects {
     public static <T> T aspectOf(Class<T> aspectClass) throws NoAspectBoundException {
         try {
             return (T) getSingletonOrThreadAspectOf(aspectClass).invoke(null, EMPTY_OBJECT_ARRAY);
-        } catch (InvocationTargetException e) {
+        } catch (Exception e) {
         	//FIXME asc Highly temporary change to see what the build makes of it - dont use 1.4 APIs
             throw new NoAspectBoundException(aspectClass.getName(), e);//e.getCause());
-        } catch (Exception e) {
-            throw new NoAspectBoundException(aspectClass.getName(), e);
         }
-    }
+	}
 
     /**
      * @param <T> the expected class of the aspect
@@ -61,13 +59,11 @@ public class Aspects {
     public static <T> T aspectOf(Class<T> aspectClass, Object perObject) throws NoAspectBoundException {
         try {
             return (T) getPerObjectAspectOf(aspectClass).invoke(null, new Object[]{perObject});
-        } catch (InvocationTargetException e) {
+        } catch (Exception e) {
         	//FIXME asc Highly temporary change to see what the build makes of it - dont use 1.4 APIs
             throw new NoAspectBoundException(aspectClass.getName(), e);//e.getCause());
-        } catch (Exception e) {
-            throw new NoAspectBoundException(aspectClass.getName(), e);
         }
-    }
+	}
 
     /**
      * @param <T> the expected class of the aspect
@@ -79,13 +75,11 @@ public class Aspects {
     public static <T> T aspectOf(Class<T> aspectClass, Class<?> perTypeWithin) throws NoAspectBoundException {
         try {
             return (T) getPerTypeWithinAspectOf(aspectClass).invoke(null, new Object[]{perTypeWithin});
-        } catch (InvocationTargetException e) {
+        } catch (Exception e) {
 //        	FIXME asc Highly temporary change to see what the build makes of it - dont use 1.4 APIs
             throw new NoAspectBoundException(aspectClass.getName(), e);//e.getCause());
-        } catch (Exception e) {
-            throw new NoAspectBoundException(aspectClass.getName(), e);
         }
-    }
+	}
 
     /**
      * @param aspectClass the aspect class 

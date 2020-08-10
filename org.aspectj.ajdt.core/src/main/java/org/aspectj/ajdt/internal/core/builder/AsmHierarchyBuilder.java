@@ -760,10 +760,8 @@ public class AsmHierarchyBuilder extends ASTVisitor {
 				Member member = factory.makeResolvedMember(methodDeclaration.binding);
 				peNode.setBytecodeName(member.getName());
 				peNode.setBytecodeSignature(member.getSignature());
-			} catch (BCException bce) { // bad type name
+			} catch (BCException | NullPointerException bce) { // bad type name
 				bce.printStackTrace();
-			} catch (NullPointerException npe) {
-				npe.printStackTrace();
 			}
 		}
 		((IProgramElement) stack.peek()).addChild(peNode);
@@ -1016,9 +1014,7 @@ public class AsmHierarchyBuilder extends ASTVisitor {
 				Member member = factory.makeResolvedMember(constructorDeclaration.binding);
 				memberName = member.getName();
 				memberBytecodeSignature = member.getSignature();
-			} catch (BCException bce) { // bad type name
-				memberName = "<undefined>";
-			} catch (NullPointerException npe) {
+			} catch (BCException | NullPointerException bce) { // bad type name
 				memberName = "<undefined>";
 			}
 			peNode.setBytecodeName(memberName);

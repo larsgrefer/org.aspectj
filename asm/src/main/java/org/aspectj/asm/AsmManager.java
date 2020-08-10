@@ -258,9 +258,6 @@ public class AsmManager implements IStructureModel {
 				mapper = (RelationshipMap) s.readObject();
 				s.close();
 			}
-		} catch (FileNotFoundException fnfe) {
-			// That is OK
-			hierarchy.setRoot(IHierarchy.NO_STRUCTURE);
 		} catch (EOFException eofe) {
 			// Might be an old format sym file that is missing its relationships
 			if (!hierarchyReadOK) {
@@ -268,12 +265,13 @@ public class AsmManager implements IStructureModel {
 				eofe.printStackTrace();
 				hierarchy.setRoot(IHierarchy.NO_STRUCTURE);
 			}
-		} catch (Exception e) {
-			// System.err.println("AsmManager: Unable to read structure model: "+
-			// configFilePath+" because of:");
-			// e.printStackTrace();
+		} catch (Exception fnfe) {
+			// That is OK
 			hierarchy.setRoot(IHierarchy.NO_STRUCTURE);
-		} finally {
+		}// System.err.println("AsmManager: Unable to read structure model: "+
+// configFilePath+" because of:");
+// e.printStackTrace();
+		finally {
 			notifyListeners();
 		}
 	}
