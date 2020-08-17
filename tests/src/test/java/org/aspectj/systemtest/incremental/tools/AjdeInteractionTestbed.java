@@ -1,11 +1,11 @@
 /********************************************************************
- * Copyright (c) 2005 Contributors.All rights reserved. 
- * This program and the accompanying materials are made available 
- * under the terms of the Eclipse Public License v1.0 
- * which accompanies this distribution and is available at 
- * http://eclipse.org/legal/epl-v10.html 
- *  
- * Contributors: 
+ * Copyright (c) 2005 Contributors.All rights reserved.
+ * This program and the accompanying materials are made available
+ * under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution and is available at
+ * http://eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
  *     Andy Clement      initial implementation
  *     Helen Hawkins     Converted to new interface (bug 148190)
  *******************************************************************/
@@ -15,7 +15,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -35,14 +34,14 @@ import junit.framework.TestCase;
 
 /**
  * This class uses Ajde in the same way that an IDE (e.g. AJDT) does.
- * 
+ *
  * The build is driven through 'doBuild(projectName)' but the build can be configured by the methods beginning 'configure***'.
  * Information about what happened during a build is accessible through the get*, was*, print* public methods...
- * 
+ *
  */
 public class AjdeInteractionTestbed extends TestCase {
 
-	public static boolean VERBOSE = false; // do you want the gory details?
+	public final static boolean VERBOSE = System.getProperty("aspectj.tests.verbose", "true").equalsIgnoreCase("true");
 
 	public static String testdataSrcDir = "../tests/multiIncremental";
 	protected static File sandboxDir;
@@ -77,7 +76,7 @@ public class AjdeInteractionTestbed extends TestCase {
 	}
 
 	public void addXmlConfigFile(String projectName, String xmlfile) {
-		List<String> l = new ArrayList<String>();
+		List<String> l = new ArrayList<>();
 		l.add(xmlfile);
 		AjCompiler compiler = CompilerFactory.getCompilerForProjectWithDir(sandboxDir + File.separator + projectName);
 		((MultiProjTestCompilerConfiguration) compiler.getCompilerConfiguration()).setProjectXmlConfigFiles(l);
@@ -116,7 +115,7 @@ public class AjdeInteractionTestbed extends TestCase {
 
 	public void configureAspectPath(String projectName, File aspectpath) {
 		AjCompiler compiler = CompilerFactory.getCompilerForProjectWithDir(sandboxDir + File.separator + projectName);
-		Set<File> s = new HashSet<File>();
+		Set<File> s = new HashSet<>();
 		s.add(aspectpath);
 		((MultiProjTestCompilerConfiguration) compiler.getCompilerConfiguration()).setAspectPath(s);
 	}
@@ -137,7 +136,7 @@ public class AjdeInteractionTestbed extends TestCase {
 	}
 
 	public static void configureInPath(String projectName, File inpath) {
-		Set<File> s = new HashSet<File>();
+		Set<File> s = new HashSet<>();
 		s.add(inpath);
 		AjCompiler compiler = CompilerFactory.getCompilerForProjectWithDir(sandboxDir + File.separator + projectName);
 		((MultiProjTestCompilerConfiguration) compiler.getCompilerConfiguration()).setInpath(s);
@@ -241,7 +240,7 @@ public class AjdeInteractionTestbed extends TestCase {
 		File projectBase = new File(sandboxDir, pname);
 		ICompilerConfiguration icc = compiler.getCompilerConfiguration();
 		List<String> currentFiles = icc.getProjectSourceFiles();
-		List<String> filesForCompilation = new ArrayList<String>();
+		List<String> filesForCompilation = new ArrayList<>();
 		collectUpFiles(projectBase, projectBase, filesForCompilation);
 		boolean changed = false;
 		for (String s : filesForCompilation) {
@@ -263,7 +262,7 @@ public class AjdeInteractionTestbed extends TestCase {
 		File projectBase = new File(sandboxDir, pname);
 		ICompilerConfiguration icc = compiler.getCompilerConfiguration();
 		List<String> currentXmlFiles = icc.getProjectXmlConfigFiles();
-		List<String> collector = new ArrayList<String>();
+		List<String> collector = new ArrayList<>();
 		collectUpXmlFiles(projectBase, projectBase, collector);
 		boolean changed = false;
 		for (String s : collector) {
@@ -330,13 +329,15 @@ public class AjdeInteractionTestbed extends TestCase {
 	 * Make sure no errors have been recorded
 	 */
 	private void checkForErrors(AjCompiler compiler) {
-		MultiProjTestMessageHandler handler = (MultiProjTestMessageHandler) compiler.getMessageHandler();
-		if (handler.hasErrorMessages()) {
-			System.err.println("Build errors:");
-			for (IMessage message: handler.getErrorMessages()) {
-				System.err.println(message);
+		if (AjdeInteractionTestbed.VERBOSE) {
+			MultiProjTestMessageHandler handler = (MultiProjTestMessageHandler) compiler.getMessageHandler();
+			if (handler.hasErrorMessages()) {
+				System.err.println("Build errors:");
+				for (IMessage message : handler.getErrorMessages()) {
+					System.err.println(message);
+				}
+				System.err.println("---------");
 			}
-			System.err.println("---------");
 		}
 	}
 
@@ -501,7 +502,7 @@ public class AjdeInteractionTestbed extends TestCase {
 
 		public static boolean informedAboutKindOfBuild;
 		public static boolean fullBuildOccurred;
-		public static List<String> detectedDeletions = new ArrayList<String>();
+		public static List<String> detectedDeletions = new ArrayList<>();
 		public static StringBuffer decisions = new StringBuffer();
 
 		public static void reset() {
@@ -552,5 +553,5 @@ public class AjdeInteractionTestbed extends TestCase {
 			decisions.append(s).append("\n");
 			log(s);
 		}
-	};
+	}
 }

@@ -157,8 +157,8 @@ public class EclipseScope implements IScope {
 		if (importedNames != null)
 			return;
 
-		List<String> importedNamesList = new ArrayList<String>();
-		List<String> importedPrefixesList = new ArrayList<String>();
+		List<String> importedNamesList = new ArrayList<>();
+		List<String> importedPrefixesList = new ArrayList<>();
 
 		Scope currentScope = scope;
 		// add any enclosing types to this list
@@ -197,9 +197,9 @@ public class EclipseScope implements IScope {
 			importedNamesList.add(world.fromBinding(topType).getName());
 		}
 
-		importedNames = importedNamesList.toArray(new String[importedNamesList.size()]);
+		importedNames = importedNamesList.toArray(new String[0]);
 
-		importedPrefixes = importedPrefixesList.toArray(new String[importedPrefixesList.size()]);
+		importedPrefixes = importedPrefixesList.toArray(new String[0]);
 	}
 
 	private void addClassAndParentsToPrefixes(ReferenceBinding binding, List<String> importedPrefixesList) {

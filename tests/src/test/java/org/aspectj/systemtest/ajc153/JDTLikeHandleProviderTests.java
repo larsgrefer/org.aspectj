@@ -12,7 +12,6 @@ package org.aspectj.systemtest.ajc153;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.Iterator;
 import java.util.List;
 
 import org.aspectj.asm.AsmManager;
@@ -536,8 +535,6 @@ public class JDTLikeHandleProviderTests extends XMLBasedAjcTestCase {
 		IHierarchy top = AsmManager.lastActiveStructureModel.getHierarchy();
 		IProgramElement pe = top.findElementForLabel(top.getRoot(), kind, ipeName);
 		String found = pe.getHandleIdentifier();
-		System.err.println("expected: " + expectedHandle);
-		System.err.println("actual:   " + found);
 		assertEquals("handleIdentifier - expected " + expectedHandle + ", but found " + found, expectedHandle, found);
 	}
 

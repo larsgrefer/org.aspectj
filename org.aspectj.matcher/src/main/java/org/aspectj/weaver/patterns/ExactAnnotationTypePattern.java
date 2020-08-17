@@ -11,7 +11,6 @@ package org.aspectj.weaver.patterns;
 
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
@@ -411,7 +410,7 @@ public class ExactAnnotationTypePattern extends AnnotationTypePattern {
 		if (s.getMajorVersion() >= WeaverVersionInfo.WEAVER_VERSION_MAJOR_AJ160M2) {
 			int annotationValueCount = s.readInt();
 			if (annotationValueCount > 0) {
-				Map<String, String> aValues = new HashMap<String, String>();
+				Map<String, String> aValues = new HashMap<>();
 				for (int i = 0; i < annotationValueCount; i++) {
 					String key = s.readUTF();
 					String val = s.readUTF();

@@ -11,7 +11,6 @@ package org.aspectj.weaver.patterns;
 
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
@@ -82,7 +81,7 @@ public class WildAnnotationTypePattern extends AnnotationTypePattern {
 		// - the value names are for valid annotation fields
 		// - the specified values are of the correct type
 		// - for enums, check the specified values can be resolved in the specified scope
-		Map<String,String> replacementValues = new HashMap<String,String>();
+		Map<String,String> replacementValues = new HashMap<>();
 		Set<String> keys = annotationValues.keySet();
 		ResolvedMember[] ms = annotationType.getDeclaredMethods();
 		for (String k: keys) {
@@ -391,7 +390,7 @@ public class WildAnnotationTypePattern extends AnnotationTypePattern {
 		if (s.getMajorVersion() >= WeaverVersionInfo.WEAVER_VERSION_MAJOR_AJ160M2) {
 			int annotationValueCount = s.readInt();
 			if (annotationValueCount > 0) {
-				Map<String, String> aValues = new HashMap<String, String>();
+				Map<String, String> aValues = new HashMap<>();
 				for (int i = 0; i < annotationValueCount; i++) {
 					String key = s.readUTF();
 					String val = s.readUTF();

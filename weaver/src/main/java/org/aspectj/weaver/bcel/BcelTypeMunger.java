@@ -162,16 +162,12 @@ public class BcelTypeMunger extends ConcreteTypeMunger {
 								thisAspect.getClassName());
 						Map<String, List<String>> declareParentsMap = thisAspectNode.getDeclareParentsMap();
 						if (declareParentsMap == null) {
-							declareParentsMap = new HashMap<String, List<String>>();
+							declareParentsMap = new HashMap<>();
 							thisAspectNode.setDeclareParentsMap(declareParentsMap);
 						}
 						String tname = target.getName();
 						String pname = newParent.getName();
-						List<String> newparents = declareParentsMap.get(tname);
-						if (newparents == null) {
-							newparents = new ArrayList<String>();
-							declareParentsMap.put(tname, newparents);
-						}
+						List<String> newparents = declareParentsMap.computeIfAbsent(tname, k -> new ArrayList<>());
 						newparents.add(pname);
 						AsmRelationshipProvider.addRelationship(model, weaver.getLazyClassGen().getType(), munger, declaringAspect);
 					}
@@ -933,7 +929,7 @@ public class BcelTypeMunger extends ConcreteTypeMunger {
 				} else {
 					annotationsOnRealMember = realMember.getAnnotations();
 				}
-				Set<ResolvedType> addedAnnotations = new HashSet<ResolvedType>();
+				Set<ResolvedType> addedAnnotations = new HashSet<>();
 				if (annotationsOnRealMember != null) {
 					for (AnnotationAJ anno : annotationsOnRealMember) {
 						AnnotationGen a = ((BcelAnnotation) anno).getBcelAnnotation();

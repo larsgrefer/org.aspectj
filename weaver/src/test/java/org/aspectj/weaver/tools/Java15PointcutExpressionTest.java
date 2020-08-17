@@ -17,7 +17,6 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.StringTokenizer;
@@ -140,7 +139,7 @@ public class Java15PointcutExpressionTest extends TestCase {
 
 	}
 	
-	private static final Set<PointcutPrimitive> DEFAULT_SUPPORTED_PRIMITIVES = new HashSet<PointcutPrimitive>();
+	private static final Set<PointcutPrimitive> DEFAULT_SUPPORTED_PRIMITIVES = new HashSet<>();
 
 	 static {
 	  DEFAULT_SUPPORTED_PRIMITIVES.add(PointcutPrimitive.EXECUTION);
@@ -286,8 +285,7 @@ public class Java15PointcutExpressionTest extends TestCase {
 	  tps[parameterNumber].getAnnotationPattern().toString();
 	  
 	  // parameter type annotation checking
-	  Set<String> expected = new HashSet<String>();
-	  expected.addAll(mpnv.getParameterTypeAnnotations());
+		Set<String> expected = new HashSet<>(mpnv.getParameterTypeAnnotations());
 	  
 	  StringTokenizer st = new StringTokenizer(expectedParameterTypeAnnotations==null?"":expectedParameterTypeAnnotations);
 	  while (st.hasMoreTokens()) {
@@ -305,8 +303,7 @@ public class Java15PointcutExpressionTest extends TestCase {
 	  }
 	  
 	  // parameter annotation checking
-	  expected = new HashSet<String>();
-	  expected.addAll(mpnv.getParameterAnnotations());
+		expected = new HashSet<>(mpnv.getParameterAnnotations());
 	  
 	  st = new StringTokenizer(expectedParameterAnnotations==null?"":expectedParameterAnnotations);
 	  while (st.hasMoreTokens()) {
@@ -327,8 +324,8 @@ public class Java15PointcutExpressionTest extends TestCase {
 	
 	static class MyPatternNodeVisitor extends AbstractPatternNodeVisitor {
 		private StringBuffer stringRep = new StringBuffer();
-		private List<String> parameterAnnotations = new ArrayList<String>();
-		private List<String> parameterTypeAnnotations = new ArrayList<String>();
+		private List<String> parameterAnnotations = new ArrayList<>();
+		private List<String> parameterTypeAnnotations = new ArrayList<>();
 		
 		public String getStringRepresentation() { return stringRep.toString(); }
 		public List<String> getParameterAnnotations() { return parameterAnnotations; }

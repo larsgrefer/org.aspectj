@@ -62,6 +62,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -286,7 +287,7 @@ public class JavaClass extends Modifiers implements Cloneable, Node {
 	public AnnotationGen[] getAnnotations() {
 		if (annotationsOutOfDate) {
 			// Find attributes that contain annotation data
-			List<AnnotationGen> accumulatedAnnotations = new ArrayList<AnnotationGen>();
+			List<AnnotationGen> accumulatedAnnotations = new ArrayList<>();
 			for (Attribute attribute : attributes) {
 				if (attribute instanceof RuntimeAnnos) {
 					RuntimeAnnos runtimeAnnotations = (RuntimeAnnos) attribute;
@@ -742,11 +743,11 @@ public class JavaClass extends Modifiers implements Cloneable, Node {
 	 */
 	public JavaClass[] getSuperClasses() {
 		JavaClass clazz = this;
-		List<JavaClass> vec = new ArrayList<JavaClass>();
+		List<JavaClass> vec = new ArrayList<>();
 		for (clazz = clazz.getSuperClass(); clazz != null; clazz = clazz.getSuperClass()) {
 			vec.add(clazz);
 		}
-		return vec.toArray(new JavaClass[vec.size()]);
+		return vec.toArray(new JavaClass[0]);
 	}
 
 	/**
@@ -772,8 +773,8 @@ public class JavaClass extends Modifiers implements Cloneable, Node {
 	 * Get all interfaces implemented by this JavaClass (transitively).
 	 */
 	public Collection<JavaClass> getAllInterfaces() {
-		Queue<JavaClass> queue = new LinkedList<JavaClass>();
-		List<JavaClass> interfaceList = new ArrayList<JavaClass>();
+		Queue<JavaClass> queue = new LinkedList<>();
+		List<JavaClass> interfaceList = new ArrayList<>();
 
 		queue.add(this);
 
@@ -791,9 +792,7 @@ public class JavaClass extends Modifiers implements Cloneable, Node {
 				}
 			}
 
-			for (JavaClass anInterface : interfaces) {
-				queue.add(anInterface);
-			}
+			Collections.addAll(queue, interfaces);
 		}
 
 		return interfaceList;

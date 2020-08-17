@@ -22,7 +22,6 @@ import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -40,7 +39,7 @@ public class UtilClassLoader extends URLClassLoader {
         super(urls);
         LangUtil.throwIaxIfNotAssignable(dirs, File.class, "dirs");
         this.urlsForDebugString = urls;
-        ArrayList<File> dcopy = new ArrayList<File>();
+        List<File> dcopy = new ArrayList<>();
         
         if (!LangUtil.isEmpty(dirs)) {
             dcopy.addAll(Arrays.asList(dirs));

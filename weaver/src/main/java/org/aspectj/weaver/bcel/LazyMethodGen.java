@@ -155,7 +155,7 @@ public final class LazyMethodGen implements Traceable {
 		} else {
 			body = null;
 		}
-		this.attributes = new ArrayList<Attribute>();
+		this.attributes = new ArrayList<>();
 		this.enclosingClass = enclosingClass;
 		assertGoodBody();
 		this.originalMethodHasLocalVariableTable = true; // it is a new method, we want an lvar table
@@ -272,7 +272,7 @@ public final class LazyMethodGen implements Traceable {
 		if (memberView == null) {
 			// If member view is null, we manage them in newAnnotations
 			if (newAnnotations == null) {
-				newAnnotations = new ArrayList<AnnotationAJ>();
+				newAnnotations = new ArrayList<>();
 			}
 			newAnnotations.add(ax);
 		} else {
@@ -285,7 +285,7 @@ public final class LazyMethodGen implements Traceable {
 		if (memberView == null) {
 			// If member view is null, we manage them in newAnnotations
 			if (annotationsForRemoval == null) {
-				annotationsForRemoval = new ArrayList<ResolvedType>();
+				annotationsForRemoval = new ArrayList<>();
 			}
 			annotationsForRemoval.add(annotationType);
 		} else {
@@ -336,7 +336,7 @@ public final class LazyMethodGen implements Traceable {
 	public AnnotationAJ[] getAnnotations() {
 		initialize();
 		if (memberView == null && newAnnotations!=null && newAnnotations.size()!=0) {
-			return newAnnotations.toArray(new AnnotationAJ[newAnnotations.size()]);
+			return newAnnotations.toArray(new AnnotationAJ[0]);
 		}
 		return null;
 	}
@@ -627,7 +627,7 @@ public final class LazyMethodGen implements Traceable {
 	}
 
 	private class BodyPrinter {
-		Map<InstructionHandle, String> labelMap = new HashMap<InstructionHandle, String>();
+		Map<InstructionHandle, String> labelMap = new HashMap<>();
 
 		InstructionList body;
 		PrintStream out;
@@ -653,7 +653,7 @@ public final class LazyMethodGen implements Traceable {
 
 		// label assignment
 		void assignLabels() {
-			LinkedList<ExceptionRange> exnTable = new LinkedList<ExceptionRange>();
+			LinkedList<ExceptionRange> exnTable = new LinkedList<>();
 			String pendingLabel = null;
 			// boolean hasPendingTargeters = false;
 			int lcounter = 0;
@@ -1072,9 +1072,9 @@ public final class LazyMethodGen implements Traceable {
 		 */
 		InstructionHandle oldInstructionHandle = getBody().getStart();
 		InstructionHandle newInstructionHandle = fresh.getStart();
-		LinkedList<ExceptionRange> exceptionList = new LinkedList<ExceptionRange>();
+		LinkedList<ExceptionRange> exceptionList = new LinkedList<>();
 
-		Map<LocalVariableTag, LVPosition> localVariables = new HashMap<LocalVariableTag, LVPosition>();
+		Map<LocalVariableTag, LVPosition> localVariables = new HashMap<>();
 
 		int currLine = -1;
 		int lineNumberOffset = (fromFilename == null) ? 0 : getEnclosingClass().getSourceDebugExtensionOffset(fromFilename);
@@ -1198,10 +1198,10 @@ public final class LazyMethodGen implements Traceable {
 
 		int currLine = -1;
 		int lineNumberOffset = (fromFilename == null) ? 0 : getEnclosingClass().getSourceDebugExtensionOffset(fromFilename);
-		Map<LocalVariableTag, LVPosition> localVariables = new HashMap<LocalVariableTag, LVPosition>();
-		LinkedList<ExceptionRange> exceptionList = new LinkedList<ExceptionRange>();
-		Set<InstructionHandle> forDeletion = new HashSet<InstructionHandle>();
-		Set<BranchHandle> branchInstructions = new HashSet<BranchHandle>();
+		Map<LocalVariableTag, LVPosition> localVariables = new HashMap<>();
+		LinkedList<ExceptionRange> exceptionList = new LinkedList<>();
+		Set<InstructionHandle> forDeletion = new HashSet<>();
+		Set<BranchHandle> branchInstructions = new HashSet<>();
 		// OPTIMIZE sort out in here: getRange()/insertHandler() and type of
 		// exceptionList
 		while (iHandle != null) {
@@ -1333,7 +1333,7 @@ public final class LazyMethodGen implements Traceable {
 			paramSlots = -1;
 		}
 
-		Map<InstructionHandle, Set<Integer>> duplicatedLocalMap = new HashMap<InstructionHandle, Set<Integer>>();
+		Map<InstructionHandle, Set<Integer>> duplicatedLocalMap = new HashMap<>();
 		for (LocalVariableTag tag : localVariables.keySet()) {
 			// have we already added one with the same slot number and start
 			// location?
@@ -1343,7 +1343,7 @@ public final class LazyMethodGen implements Traceable {
 			InstructionHandle end = (tag.getSlot() < paramSlots ? methodEnd : lvpos.end);
 			Set<Integer> slots = duplicatedLocalMap.get(start);
 			if (slots == null) {
-				slots = new HashSet<Integer>();
+				slots = new HashSet<>();
 				duplicatedLocalMap.put(start, slots);
 			} else if (slots.contains(tag.getSlot())) {
 				// we already have a var starting at this tag with this slot
@@ -1359,7 +1359,7 @@ public final class LazyMethodGen implements Traceable {
 	}
 
 	private void addExceptionHandlers(MethodGen gen, Map<InstructionHandle, InstructionHandle> map,
-			LinkedList<ExceptionRange> exnList) {
+			Iterable<ExceptionRange> exnList) {
 		// now add exception handlers
 		for (ExceptionRange r : exnList) {
 			if (r.isEmpty()) {
@@ -1461,7 +1461,7 @@ public final class LazyMethodGen implements Traceable {
 	 * i.e., a 1:1 mapping.
 	 */
 	private Map<InstructionHandle, InstructionHandle> copyAllInstructionsExceptRangeInstructionsInto(InstructionList intoList) {
-		Map<InstructionHandle, InstructionHandle> map = new HashMap<InstructionHandle, InstructionHandle>();
+		Map<InstructionHandle, InstructionHandle> map = new HashMap<>();
 		for (InstructionHandle ih = getBody().getStart(); ih != null; ih = ih.getNext()) {
 			if (Range.isRangeHandle(ih)) {
 				continue;
@@ -1547,7 +1547,7 @@ public final class LazyMethodGen implements Traceable {
 	// but I don't trust the only implementation, TreeSet, to do the right
 	// thing.
 
-	/* private */static void insertHandler(ExceptionRange fresh, LinkedList<ExceptionRange> l) {
+	/* private */static void insertHandler(ExceptionRange fresh, List<ExceptionRange> l) {
 		// Old implementation, simply: l.add(0,fresh);
 		for (ListIterator<ExceptionRange> iter = l.listIterator(); iter.hasNext();) {
 			ExceptionRange r = iter.next();

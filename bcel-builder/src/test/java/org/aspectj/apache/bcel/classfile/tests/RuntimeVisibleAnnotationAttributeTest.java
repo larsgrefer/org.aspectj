@@ -15,7 +15,6 @@ package org.aspectj.apache.bcel.classfile.tests;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.aspectj.apache.bcel.classfile.Attribute;
@@ -383,7 +382,7 @@ public class RuntimeVisibleAnnotationAttributeTest extends BcelTestCase {
 
 	public static List<String> getListOfAnnotationNames(AnnotationGen a) {
 	  	List<NameValuePair> l = a.getValues();
-	    List<String> names = new ArrayList<String>();
+	    List<String> names = new ArrayList<>();
 		for (NameValuePair element : l) {
 			names.add(element.getNameString());
 		}

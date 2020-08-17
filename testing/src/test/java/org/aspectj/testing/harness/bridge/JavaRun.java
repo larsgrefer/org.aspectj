@@ -167,8 +167,7 @@ public class JavaRun implements IAjcRun {
 					File[] files = sandbox.findFiles(spec.aspectpath);
 					aspectURLs = FileUtil.getFileURLs(files);
 				}
-				ArrayList classpath = new ArrayList();
-				classpath.addAll(Arrays.asList(aspectURLs));
+				ArrayList classpath = new ArrayList(Arrays.asList(aspectURLs));
 				final URL[] classURLs;
 				{
 					classpath.addAll(Arrays.asList(clAndLibs));
@@ -834,13 +833,11 @@ public class JavaRun implements IAjcRun {
 				throw new ExitCalledException(exitCode);
 			}
 		}
-		@Override
 		public void checkAwtEventQueueAccess() {
 			if ((null != runThread) && runThread.equals(Thread.currentThread())) {
 				throw new AwtUsedException();
 			}
 		}
-		@Override
 		public void checkSystemClipboardAccess() {
 			// permit
 		}
@@ -885,7 +882,6 @@ public class JavaRun implements IAjcRun {
 		@Override
 		public void checkListen(int arg0) {
 		}
-		@Override
 		public void checkMemberAccess(Class arg0, int arg1) {
 		}
 		@Override
@@ -930,7 +926,6 @@ public class JavaRun implements IAjcRun {
 		@Override
 		public void checkSetFactory() {
 		}
-		@Override
 		public boolean checkTopLevelWindow(Object arg0) {
 			return true;
 		}

@@ -11,7 +11,6 @@ package org.aspectj.apache.bcel.classfile.tests;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.aspectj.apache.bcel.Constants;
@@ -523,7 +522,7 @@ public class GeneratingAnnotatedClassesTest extends BcelTestCase {
 
 		ObjectType t = new ObjectType("SimpleAnnotation");
 
-		List<NameValuePair> elements = new ArrayList<NameValuePair>();
+		List<NameValuePair> elements = new ArrayList<>();
 		elements.add(nvGen);
 
 		AnnotationGen a = new AnnotationGen(t, elements, true, cp);
@@ -534,7 +533,7 @@ public class GeneratingAnnotatedClassesTest extends BcelTestCase {
 		SimpleElementValue evg = new SimpleElementValue(ElementValue.STRING, cp, aFruit);
 		NameValuePair nvGen = new NameValuePair("fruit", evg, cp);
 		ObjectType t = new ObjectType("SimpleStringAnnotation");
-		List<NameValuePair> elements = new ArrayList<NameValuePair>();
+		List<NameValuePair> elements = new ArrayList<>();
 		elements.add(nvGen);
 		return new AnnotationGen(t, elements, true, cp);
 	}
@@ -545,7 +544,7 @@ public class GeneratingAnnotatedClassesTest extends BcelTestCase {
 		ArrayElementValue array = new ArrayElementValue(cp);
 		array.addElement(new AnnotationElementValue(a, cp));
 		NameValuePair nvp = new NameValuePair("value", array, cp);
-		List<NameValuePair> elements = new ArrayList<NameValuePair>();
+		List<NameValuePair> elements = new ArrayList<>();
 		elements.add(nvp);
 		return new AnnotationGen(new ObjectType("CombinedAnnotation"), elements, true, cp);
 	}
@@ -557,7 +556,7 @@ public class GeneratingAnnotatedClassesTest extends BcelTestCase {
 
 		ObjectType t = new ObjectType("SimpleAnnotation");
 
-		List<NameValuePair> elements = new ArrayList<NameValuePair>();
+		List<NameValuePair> elements = new ArrayList<>();
 		elements.add(nvGen);
 
 		AnnotationGen a = new AnnotationGen(t, elements, false, cp);

@@ -23,7 +23,6 @@ import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -41,7 +40,7 @@ public class TestClassLoader extends URLClassLoader {
         super(urls);
         this.urlsForDebugString = urls;
         LangUtil.throwIaxIfComponentsBad(dirs, "dirs", null);
-        ArrayList dcopy = new ArrayList();
+        List dcopy = new ArrayList();
         
         if (!LangUtil.isEmpty(dirs)) {
             dcopy.addAll(Arrays.asList(dirs));

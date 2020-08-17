@@ -18,7 +18,6 @@ import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Hashtable;
-import java.util.Iterator;
 import java.util.List;
 
 import org.aspectj.apache.bcel.Constants;
@@ -69,10 +68,10 @@ public class Utility {
 
 	public static List<AjAttribute> readAjAttributes(String classname, Attribute[] as, ISourceContext context, World w,
 			AjAttribute.WeaverVersionInfo version, ConstantPoolReader dataDecompressor) {
-		List<AjAttribute> attributes = new ArrayList<AjAttribute>();
+		List<AjAttribute> attributes = new ArrayList<>();
 
 		// first pass, look for version
-		List<Unknown> forSecondPass = new ArrayList<Unknown>();
+		List<Unknown> forSecondPass = new ArrayList<>();
 		for (int i = as.length - 1; i >= 0; i--) {
 			Attribute a = as[i];
 			if (a instanceof Unknown) {
@@ -248,7 +247,7 @@ public class Utility {
 
 	// Lookup table, for converting between pairs of types, it gives
 	// us the method name in the Conversions class
-	private static Hashtable<String, String> validBoxing = new Hashtable<String, String>();
+	private static Hashtable<String, String> validBoxing = new Hashtable<>();
 
 	static {
 		validBoxing.put("Ljava/lang/Byte;B", "byteObject");
@@ -649,7 +648,7 @@ public class Utility {
 			return Collections.emptyList();
 		}
 		// Go through the annotation types
-		List<Lint.Kind> suppressedWarnings = new ArrayList<Lint.Kind>();
+		List<Lint.Kind> suppressedWarnings = new ArrayList<>();
 		boolean found = false;
 		for (int i = 0; !found && i < anns.length; i++) {
 			// Check for the SuppressAjWarnings annotation

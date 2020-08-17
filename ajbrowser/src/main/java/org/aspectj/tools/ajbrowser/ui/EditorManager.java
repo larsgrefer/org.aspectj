@@ -17,6 +17,7 @@ import java.awt.BorderLayout;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
 
 import javax.swing.Box;
@@ -43,8 +44,8 @@ public class EditorManager {
 
 	private EditorAdapter editor = null;
 	private BasicEditor basicEditor = null;
-	private ArrayList<EditorListener> editorListeners = new ArrayList<EditorListener>();
-	private Vector<EditorAdapter> editors = new Vector<EditorAdapter>();
+	private List<EditorListener> editorListeners = new ArrayList<>();
+	private Vector<EditorAdapter> editors = new Vector<>();
 	private JPanel editor_panel = null;
 	private Box editors_box = Box.createVerticalBox();
 

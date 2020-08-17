@@ -18,7 +18,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 
 import junit.framework.TestCase;
@@ -72,7 +71,7 @@ public class ModulesTest extends TestCase {
         }
     }
 
-    ArrayList<File> tempFiles = new ArrayList<File>();
+    List<File> tempFiles = new ArrayList<>();
      
 	public ModulesTest(String name) {
 		super(name);
@@ -101,7 +100,7 @@ public class ModulesTest extends TestCase {
     }
       
     public void testAllModulesCreation() {
-        ArrayList<Module> badModules = new ArrayList<Module>();
+        List<Module> badModules = new ArrayList<>();
         for (String name: MODULE_NAMES) {
             File dir = new File(BASE_DIR, name);
             if (dir.isDirectory()) {

@@ -16,7 +16,6 @@ package org.aspectj.testing.xml;
 import java.io.File;
 import java.util.ArrayList;
 //import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 
 import org.aspectj.bridge.IMessage;
@@ -41,7 +40,7 @@ public class SoftMessage implements IMessage {
 	private String details;
 	private int id;
 	private int sourceStart,sourceEnd;
-	private final ArrayList extraSourceLocations = new ArrayList();
+	private final List extraSourceLocations = new ArrayList();
 
 	//private ISourceLocation pseudoSourceLocation;  // set directly
 	// collapse enclosed source location for shorter, property-based xml

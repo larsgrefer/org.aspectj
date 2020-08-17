@@ -1,11 +1,11 @@
 /********************************************************************
- * Copyright (c) 2006 Contributors. All rights reserved. 
- * This program and the accompanying materials are made available 
- * under the terms of the Eclipse Public License v1.0 
- * which accompanies this distribution and is available at 
- * http://eclipse.org/legal/epl-v10.html 
- *  
- * Contributors: 
+ * Copyright (c) 2006 Contributors. All rights reserved.
+ * This program and the accompanying materials are made available
+ * under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution and is available at
+ * http://eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
  *    Adrian Colyer      initial implementation
  *    Helen Hawkins      Converted to new interface (bug 148190)
  *******************************************************************/
@@ -23,7 +23,6 @@ import java.io.PrintWriter;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -34,8 +33,6 @@ import org.aspectj.asm.IRelationshipMap;
 import org.aspectj.testing.util.FileUtil;
 
 public class AbstractMultiProjectIncrementalAjdeInteractionTestbed extends AjdeInteractionTestbed {
-
-	public static boolean VERBOSE = false;
 
 	public static void dumptree(IProgramElement node, int indent) {
 		for (int i = 0; i < indent; i++) {
@@ -73,7 +70,6 @@ public class AbstractMultiProjectIncrementalAjdeInteractionTestbed extends AjdeI
 
 	protected void setUp() throws Exception {
 		super.setUp();
-		AjdeInteractionTestbed.VERBOSE = VERBOSE;
 		AjState.FORCE_INCREMENTAL_DURING_TESTING = true;
 	}
 
@@ -101,12 +97,13 @@ public class AbstractMultiProjectIncrementalAjdeInteractionTestbed extends AjdeI
 		File projDir = new File(getWorkingDir(), p);
 		return new File(projDir, "bin" + File.separator + filename);
 	}
-	
+
 	public void build(String projectName) {
 		constructUpToDateLstFile(projectName, "build.lst");
 		doBuild(projectName);
-		if (AjdeInteractionTestbed.VERBOSE)
+		if (AjdeInteractionTestbed.VERBOSE) {
 			printBuildReport(projectName);
+		}
 	}
 
 	public int getRelationshipCount(String project) {
@@ -125,14 +122,15 @@ public class AbstractMultiProjectIncrementalAjdeInteractionTestbed extends AjdeI
 	public void fullBuild(String projectName) {
 		constructUpToDateLstFile(projectName, "build.lst");
 		doFullBuild(projectName);
-		if (AjdeInteractionTestbed.VERBOSE)
+		if (AjdeInteractionTestbed.VERBOSE) {
 			printBuildReport(projectName);
+		}
 	}
 
 	private void constructUpToDateLstFile(String pname, String configname) {
 		File projectBase = new File(sandboxDir, pname);
 		File toConstruct = new File(projectBase, configname);
-		List<String> filesForCompilation = new ArrayList<String>();
+		List<String> filesForCompilation = new ArrayList<>();
 		collectUpFiles(projectBase, projectBase, filesForCompilation);
 
 		try {
@@ -149,8 +147,9 @@ public class AbstractMultiProjectIncrementalAjdeInteractionTestbed extends AjdeI
 
 	private void collectUpFiles(File location, File base, List<String> collectionPoint) {
 		String contents[] = location.list();
-		if (contents == null)
+		if (contents == null) {
 			return;
+		}
 		for (String string : contents) {
 			File f = new File(location, string);
 			if (f.isDirectory()) {
@@ -160,8 +159,9 @@ public class AbstractMultiProjectIncrementalAjdeInteractionTestbed extends AjdeI
 				try {
 					fileFound = f.getCanonicalPath();
 					String toRemove = base.getCanonicalPath();
-					if (!fileFound.startsWith(toRemove))
+					if (!fileFound.startsWith(toRemove)) {
 						throw new RuntimeException("eh? " + fileFound + "   " + toRemove);
+					}
 					collectionPoint.add(fileFound.substring(toRemove.length() + 1));// +1 captures extra separator
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -192,8 +192,9 @@ public class AbstractMultiProjectIncrementalAjdeInteractionTestbed extends AjdeI
 		File projectSrc = new File(testdataSrcDir + File.separatorChar + projectName + File.separatorChar + overlayDirectory);
 		File destination = new File(getWorkingDir(), projectName);
 
-		if (AjdeInteractionTestbed.VERBOSE)
+		if (AjdeInteractionTestbed.VERBOSE) {
 			System.out.println("Altering project " + projectName);
+		}
 		copy(projectSrc, destination);
 	}
 
@@ -202,8 +203,9 @@ public class AbstractMultiProjectIncrementalAjdeInteractionTestbed extends AjdeI
 	 */
 	protected void copy(File from, File to) {
 		String contents[] = from.list();
-		if (contents == null)
+		if (contents == null) {
 			return;
+		}
 		for (String string : contents) {
 			File f = new File(from, string);
 			File t = new File(to, string);
@@ -264,10 +266,12 @@ public class AbstractMultiProjectIncrementalAjdeInteractionTestbed extends AjdeI
 
 	/** @return the number of relationship pairs */
 	protected void printModel(String projectName) throws Exception {
-		dumptree(getModelFor(projectName).getHierarchy().getRoot(), 0);
-		PrintWriter pw = new PrintWriter(System.out);
-		getModelFor(projectName).dumprels(pw);
-		pw.flush();
+		if (AjdeInteractionTestbed.VERBOSE) {
+			dumptree(getModelFor(projectName).getHierarchy().getRoot(), 0);
+			PrintWriter pw = new PrintWriter(System.out);
+			getModelFor(projectName).dumprels(pw);
+			pw.flush();
+		}
 	}
 
 	protected File getProjectRelativePath(String p, String filename) {

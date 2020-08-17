@@ -13,7 +13,6 @@ package org.aspectj.weaver.patterns;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -263,7 +262,7 @@ public class AnnotationPointcut extends NameBindingPointcut {
 	@Override
 	public List<BindingPattern> getBindingAnnotationTypePatterns() {
 		if (annotationTypePattern instanceof BindingPattern) { // BindingAnnotationTypePattern) {
-			List<BindingPattern> l = new ArrayList<BindingPattern>();
+			List<BindingPattern> l = new ArrayList<>();
 			l.add((BindingPattern)annotationTypePattern);
 			return l;
 		} else {

@@ -18,7 +18,6 @@ import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -533,7 +532,7 @@ public abstract class Shadow {
 	public void addMunger(ShadowMunger munger) {
 		if (checkMunger(munger)) {
 			if (mungers == Collections.EMPTY_LIST) {
-				mungers = new ArrayList<ShadowMunger>();
+				mungers = new ArrayList<>();
 			}
 			this.mungers.add(munger);
 		}
@@ -571,7 +570,7 @@ public abstract class Shadow {
 
 			// Stores a set of strings of the form 'aspect1:aspect2' which indicates there is no
 			// precedence specified between the two aspects at this shadow.
-			Set<String> clashingAspects = new HashSet<String>();
+			Set<String> clashingAspects = new HashSet<>();
 			int max = mungers.size();
 
 			// Compare every pair of advice mungers
@@ -688,7 +687,7 @@ public abstract class Shadow {
 	 * manipulation!
 	 */
 	public static Set<Kind> toSet(int i) {
-		Set<Kind> results = new HashSet<Kind>();
+		Set<Kind> results = new HashSet<>();
 		for (int j = 0; j < Shadow.SHADOW_KINDS.length; j++) {
 			Kind k = Shadow.SHADOW_KINDS[j];
 			if (k.isSet(i)) {

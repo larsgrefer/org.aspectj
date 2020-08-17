@@ -10,8 +10,6 @@
  *******************************************************************************/
 package org.aspectj.weaver.tools;
 
-import org.aspectj.util.LangUtil;
-
 public abstract class TraceFactory {
     
 	public final static String DEBUG_PROPERTY = "org.aspectj.tracing.debug";
@@ -58,11 +56,8 @@ public abstract class TraceFactory {
 		 * Try to load external trace infrastructure using supplied factories
 		 */
     	if (instance == null) try {
-			if (LangUtil.is15VMOrGreater()) {
+			{
 	    		Class factoryClass = Class.forName("org.aspectj.weaver.tools.Jdk14TraceFactory");
-	    		instance = (TraceFactory)factoryClass.newInstance();
-			} else {
-	    		Class factoryClass = Class.forName("org.aspectj.weaver.tools.CommonsTraceFactory");
 	    		instance = (TraceFactory)factoryClass.newInstance();
 			}
     	}

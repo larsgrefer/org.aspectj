@@ -4,7 +4,7 @@
  * under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution and is available at
  * http://eclipse.org/legal/epl-v10.html
- * 
+ *
  * Contributors:
  *     Andy Clement          initial implementation
  *     Helen Hawkins         Converted to new interface (bug 148190)
@@ -57,7 +57,7 @@ import org.aspectj.weaver.World;
  * overlays for incremental builds, that is in here. As is the ability to generate valid build configs based on a directory
  * structure. To support this we just need access to a sandbox directory - this sandbox is managed by the superclass (it only
  * assumes all builds occur in <sandboxDir>/<projectName>/ )
- * 
+ *
  * The idea is you can initialize multiple projects in the sandbox and they can all be built independently, hopefully exploiting
  * incremental compilation. Between builds you can alter the contents of a project using the alter() method that overlays some set
  * of new files onto the current set (adding new files/changing existing ones) - you can then drive a new build and check it behaves
@@ -66,7 +66,6 @@ import org.aspectj.weaver.World;
 public class MultiProjectIncrementalTests extends AbstractMultiProjectIncrementalAjdeInteractionTestbed {
 
 	public void testIncremental_344326() throws Exception {
-		AjdeInteractionTestbed.VERBOSE = true;
 		String p = "pr344326";
 		initialiseProject(p);
 		build(p);
@@ -107,8 +106,8 @@ public class MultiProjectIncrementalTests extends AbstractMultiProjectIncrementa
 		checkWasFullBuild();
 		// Should both indicate that Location cannot be resolved
 		assertEquals(2,getErrorMessages(p).size());
-	} 
-	
+	}
+
 	public void testIncrementalITDInners4() throws Exception {
 		String p = "prInner4";
 		initialiseProject(p);
@@ -123,7 +122,6 @@ public class MultiProjectIncrementalTests extends AbstractMultiProjectIncrementa
 	}
 
 	public void testIncrementalITDInners3() throws Exception {
-		AjdeInteractionTestbed.VERBOSE = true;
 		String p = "prInner3";
 		initialiseProject(p);
 		build(p);
@@ -176,7 +174,7 @@ public class MultiProjectIncrementalTests extends AbstractMultiProjectIncrementa
 	 * public void testIncrementalAspectWhitespace() throws Exception { AjdeInteractionTestbed.VERBOSE = true; String p = "xxx";
 	 * initialiseProject(p); configureNonStandardCompileOptions(p, "-showWeaveInfo"); configureShowWeaveInfoMessages(p, true);
 	 * build(p);
-	 * 
+	 *
 	 * List weaveMessages = getWeavingMessages(p); if (weaveMessages.size() != 0) { for (Iterator iterator =
 	 * weaveMessages.iterator(); iterator.hasNext();) { Object object = iterator.next(); System.out.println(object); } }
 	 * checkWasFullBuild(); assertNoErrors(p); alter(p, "inc1"); build(p); checkWasntFullBuild(); assertNoErrors(p); }
@@ -316,7 +314,6 @@ public class MultiProjectIncrementalTests extends AbstractMultiProjectIncrementa
 
 	// found whilst looking at 322446 hence that is the testdata name
 	public void testAspectInheritance_322664() throws Exception {
-		AjdeInteractionTestbed.VERBOSE = true;
 		String p = "pr322446_3";
 		initialiseProject(p);
 		build(p);
@@ -684,7 +681,9 @@ public class MultiProjectIncrementalTests extends AbstractMultiProjectIncrementa
 		String p = "pr278255";
 		initialiseProject(p);
 		build(p);
-		printModelAndRelationships(p);
+		if (AjdeInteractionTestbed.VERBOSE) {
+			printModelAndRelationships(p);
+		}
 		IRelationshipMap irm = getModelFor(p).getRelationshipMap();
 		List<IRelationship> l = irm.get("=pr278255<{A.java'X`declare \\@type");
 		assertNotNull(l);
@@ -713,7 +712,7 @@ public class MultiProjectIncrementalTests extends AbstractMultiProjectIncrementa
 	public void testOutputLocationCallbacks2() {
 		String p = "pr268827_ol_res";
 		initialiseProject(p);
-		Map<String,File> m = new HashMap<String,File>();
+		Map<String,File> m = new HashMap<>();
 		m.put("a.txt", new File(getFile(p, "src/a.txt")));
 		configureResourceMap(p, m);
 		CustomOLM olm = new CustomOLM(getProjectRelativePath(p, ".").toString());
@@ -808,7 +807,7 @@ public class MultiProjectIncrementalTests extends AbstractMultiProjectIncrementa
 		String p = "pr266420";
 		initialiseProject(p);
 
-		Hashtable<String,String> javaOptions = new Hashtable<String,String>();
+		Map<String,String> javaOptions = new Hashtable<>();
 		javaOptions.put("org.eclipse.jdt.core.compiler.compliance", "1.6");
 		javaOptions.put("org.eclipse.jdt.core.compiler.codegen.targetPlatform", "1.6");
 		javaOptions.put("org.eclipse.jdt.core.compiler.source", "1.6");
@@ -842,7 +841,6 @@ public class MultiProjectIncrementalTests extends AbstractMultiProjectIncrementa
 	}
 
 	public void testPR265729() {
-		AjdeInteractionTestbed.VERBOSE = true;
 		String lib = "pr265729_lib";
 		initialiseProject(lib);
 		// addClasspathEntryChanged(lib, getProjectRelativePath(p1,
@@ -896,9 +894,9 @@ public class MultiProjectIncrementalTests extends AbstractMultiProjectIncrementa
 
 		// @see AsmRelationshipProvider.createIntertypeDeclaredChild()
 		List<char[]> ptypes = binaryITDM.getParameterTypes();
-		assertEquals("int", new String((char[]) ptypes.get(0)));
-		assertEquals("java.util.List", new String((char[]) ptypes.get(1)));
-		assertEquals("java.io.Serializable", new String((char[]) ptypes.get(2)));
+		assertEquals("int", new String(ptypes.get(0)));
+		assertEquals("java.util.List", new String(ptypes.get(1)));
+		assertEquals("java.io.Serializable", new String(ptypes.get(2)));
 
 		// param names not set
 		// List pnames = binaryITDM.getParameterNames();
@@ -910,7 +908,6 @@ public class MultiProjectIncrementalTests extends AbstractMultiProjectIncrementa
 	}
 
 	public void testXmlConfiguredProject() {
-		AjdeInteractionTestbed.VERBOSE = true;
 		String p = "xmlone";
 		initialiseProject(p);
 		configureNonStandardCompileOptions(p, "-showWeaveInfo");// -xmlConfigured");
@@ -957,17 +954,17 @@ public class MultiProjectIncrementalTests extends AbstractMultiProjectIncrementa
 		List<String> targets = ir.getTargets();
 		assertEquals(1, targets.size());
 		System.out.println(targets.get(0));
-		String handle = (String) targets.get(0);
+		String handle = targets.get(0);
 		assertEquals("Expected the handle for the code node inside the constructor decl",
 				"=261380<test{C.java[C~C?constructor-call(void test.C.<init>())", handle);
 	}
 
 	/*
 	 * A.aj package pack; public aspect A { pointcut p() : call( C.method before() : p() { // line 7 } }
-	 * 
+	 *
 	 * C.java package pack; public class C { public void method1() { method2(); // line 6 } public void method2() { } public void
 	 * method3() { method2(); // line 13 }
-	 * 
+	 *
 	 * }
 	 */
 	public void testDontLoseAdviceMarkers_pr134471() {
@@ -975,14 +972,18 @@ public class MultiProjectIncrementalTests extends AbstractMultiProjectIncrementa
 			// see pr148027 AsmHierarchyBuilder.shouldAddUsesPointcut=false;
 			initialiseProject("P4");
 			build("P4");
-			Ajc.dumpAJDEStructureModel(getModelFor("P4"), "after full build where advice is applying");
+			if (AjdeInteractionTestbed.VERBOSE) {
+				Ajc.dumpAJDEStructureModel(getModelFor("P4"), "after full build where advice is applying");
+			}
 			// should be 4 relationship entries
 
 			// In inc1 the first advised line is 'commented out'
 			alter("P4", "inc1");
 			build("P4");
 			checkWasntFullBuild();
-			Ajc.dumpAJDEStructureModel(getModelFor("P4"), "after inc build where first advised line is gone");
+			if (AjdeInteractionTestbed.VERBOSE) {
+				Ajc.dumpAJDEStructureModel(getModelFor("P4"), "after inc build where first advised line is gone");
+			}
 			// should now be 2 relationship entries
 
 			// This will be the line 6 entry in C.java
@@ -1046,7 +1047,7 @@ public class MultiProjectIncrementalTests extends AbstractMultiProjectIncrementa
 		checkWasntFullBuild();
 		List<IMessage> msgs = getErrorMessages(p);
 		assertEquals("error message should be 'The type C is already defined' ", "The type C is already defined",
-				((IMessage) msgs.get(0)).getMessage());
+				msgs.get(0).getMessage());
 		alter("PR148285_2", "inc2"); // type C in A.aj is commented out
 		build("PR148285_2");
 		checkWasntFullBuild();
@@ -1089,7 +1090,6 @@ public class MultiProjectIncrementalTests extends AbstractMultiProjectIncrementa
 	// class C {}
 	public void testITDFQNames_pr252702() {
 		String p = "itdfq";
-		AjdeInteractionTestbed.VERBOSE = true;
 		initialiseProject(p);
 		build(p);
 		AsmManager model = getModelFor(p);
@@ -1141,7 +1141,6 @@ public class MultiProjectIncrementalTests extends AbstractMultiProjectIncrementa
 	}
 
 	public void testNPEIncremental_pr262218() {
-		AjdeInteractionTestbed.VERBOSE = true;
 		String p = "pr262218";
 		initialiseProject(p);
 		build(p);
@@ -1154,7 +1153,6 @@ public class MultiProjectIncrementalTests extends AbstractMultiProjectIncrementa
 	}
 
 	public void testDeclareAnnotationNPE_298504() {
-		AjdeInteractionTestbed.VERBOSE = true;
 		String p = "pr298504";
 		initialiseProject(p);
 		build(p);
@@ -1171,7 +1169,6 @@ public class MultiProjectIncrementalTests extends AbstractMultiProjectIncrementa
 	}
 
 	public void testIncrementalAnnoStyle_pr286341() {
-		AjdeInteractionTestbed.VERBOSE = true;
 		String base = "pr286341_base";
 		initialiseProject(base);
 		build(base);
@@ -1214,7 +1211,6 @@ public class MultiProjectIncrementalTests extends AbstractMultiProjectIncrementa
 	}
 
 	public void testBuildingBrokenCode_pr263323() {
-		AjdeInteractionTestbed.VERBOSE = true;
 		String p = "brokenCode";
 		initialiseProject(p);
 		build(p);
@@ -1236,7 +1232,6 @@ public class MultiProjectIncrementalTests extends AbstractMultiProjectIncrementa
 	 */
 
 	public void testItdProb() {
-		AjdeInteractionTestbed.VERBOSE = true;
 		String p = "itdprob";
 		initialiseProject(p);
 		build(p);
@@ -1251,7 +1246,7 @@ public class MultiProjectIncrementalTests extends AbstractMultiProjectIncrementa
 	/*
 	 * public void testGenericITD_pr262257() throws IOException { String p = "pr262257"; initialiseProject(p); build(p);
 	 * checkWasFullBuild();
-	 * 
+	 *
 	 * dumptree(getModelFor(p).getHierarchy().getRoot(), 0); PrintWriter pw = new PrintWriter(System.out);
 	 * getModelFor(p).dumprels(pw); pw.flush(); }
 	 */
@@ -1414,7 +1409,6 @@ public class MultiProjectIncrementalTests extends AbstractMultiProjectIncrementa
 
 	public void testIncrementalBuildsWithItds_pr259528() {
 		String p = "pr259528";
-		AjdeInteractionTestbed.VERBOSE = true;
 		initialiseProject(p);
 		build(p);
 		checkWasFullBuild();
@@ -1635,7 +1629,7 @@ public class MultiProjectIncrementalTests extends AbstractMultiProjectIncrementa
 	public void testInvalidAspectpath_pr121395() {
 		initialiseProject("P1");
 		File f = new File("foo.jar");
-		Set<File> s = new HashSet<File>();
+		Set<File> s = new HashSet<>();
 		s.add(f);
 		configureAspectPath("P1", s);
 		build("P1"); // This first build will be batch
@@ -1716,7 +1710,7 @@ public class MultiProjectIncrementalTests extends AbstractMultiProjectIncrementa
 		List<IProgramElement> kids = start.getChildren();
 		if (kids != null) {
 			for (IProgramElement kid : kids) {
-				IProgramElement found = getChild((IProgramElement) kid, name);
+				IProgramElement found = getChild(kid, name);
 				if (found != null) {
 					return found;
 				}
@@ -1862,11 +1856,11 @@ public class MultiProjectIncrementalTests extends AbstractMultiProjectIncrementa
 	 */
 	/*
 	 * public void testProblemCopyingResources_pr138171() { initialiseProject("PR138171");
-	 * 
+	 *
 	 * File f=getProjectRelativePath("PR138171","res.txt"); Map m = new HashMap(); m.put("res.txt",f);
 	 * AjdeInteractionTestbed.MyProjectPropertiesAdapter .getInstance().setSourcePathResources(m); build("PR138171"); File f2 =
 	 * getProjectOutputRelativePath("PR138171","res.txt"); boolean successful = f2.setReadOnly();
-	 * 
+	 *
 	 * alter("PR138171","inc1"); AjdeInteractionTestbed.MyProjectPropertiesAdapter .getInstance().setSourcePathResources(m);
 	 * build("PR138171"); List msgs = MyTaskListManager.getErrorMessages(); assertTrue("there should be one message but there are "
 	 * +(msgs==null?0:msgs.size())+":\n"+msgs,msgs!=null && msgs.size()==1); IMessage msg = (IMessage)msgs.get(0); String exp =
@@ -1918,7 +1912,7 @@ public class MultiProjectIncrementalTests extends AbstractMultiProjectIncrementa
 		build("P2");
 		checkWasntFullBuild();
 	}
-	
+
 	public void testBuildingBrokenCode_pr240360() {
 		initialiseProject("pr240360");
 		// configureNonStandardCompileOptions("pr240360","-proceedOnError");
@@ -2114,7 +2108,7 @@ public class MultiProjectIncrementalTests extends AbstractMultiProjectIncrementa
 			ZipFile zf = new ZipFile("c:/jvms/jdk1.6.0_06/jre/lib/rt.jar");
 			Enumeration<? extends ZipEntry> e = zf.entries();
 			while (e.hasMoreElements()) {
-				ZipEntry ze = (ZipEntry) e.nextElement();
+				ZipEntry ze = e.nextElement();
 				String n = ze.getName();
 				if (n.endsWith(".class")) {
 					n = n.replace('/', '.');
@@ -2170,8 +2164,8 @@ public class MultiProjectIncrementalTests extends AbstractMultiProjectIncrementa
 		assertFalse(typeA.isMissing());
 		List<ResolvedMember> viaIteratorList = getThemAll(typeA.getMethods(wantGenerics, true));
 		List<ResolvedMember> directlyList = typeA.getMethodsWithoutIterator(true, true, wantGenerics);
-		Collections.sort(viaIteratorList, new ResolvedMemberComparator());
-		Collections.sort(directlyList, new ResolvedMemberComparator());
+		viaIteratorList.sort(new ResolvedMemberComparator());
+		directlyList.sort(new ResolvedMemberComparator());
 		compare(viaIteratorList, directlyList, name);
 		// System.out.println(toString(viaIteratorList, directlyList, genericsAware));
 	}
@@ -2188,7 +2182,7 @@ public class MultiProjectIncrementalTests extends AbstractMultiProjectIncrementa
 		List<String> viaIteratorList = exhaustTypeIterator(typeA.getHierarchy(wantGenerics, false));
 		List<ResolvedType> typeDirectlyList = typeA.getHierarchyWithoutIterator(true, true, wantGenerics);
 		assertFalse(viaIteratorList.isEmpty());
-		List<String> directlyList = new ArrayList<String>();
+		List<String> directlyList = new ArrayList<>();
 		for (ResolvedType type : typeDirectlyList) {
 			String n = type.getName();
 			if (!directlyList.contains(n)) {
@@ -2252,7 +2246,7 @@ public class MultiProjectIncrementalTests extends AbstractMultiProjectIncrementa
 	}
 
 	private List<ResolvedMember> getThemAll(Iterator<ResolvedMember> methods) {
-		List<ResolvedMember> allOfThem = new ArrayList<ResolvedMember>();
+		List<ResolvedMember> allOfThem = new ArrayList<>();
 		while (methods.hasNext()) {
 			allOfThem.add(methods.next());
 		}
@@ -2260,7 +2254,7 @@ public class MultiProjectIncrementalTests extends AbstractMultiProjectIncrementa
 	}
 
 	private List<String> exhaustTypeIterator(Iterator<ResolvedType> types) {
-		List<String> allOfThem = new ArrayList<String>();
+		List<String> allOfThem = new ArrayList<>();
 		while (types.hasNext()) {
 			allOfThem.add(types.next().getName());
 		}
@@ -2373,7 +2367,7 @@ public class MultiProjectIncrementalTests extends AbstractMultiProjectIncrementa
 	/**
 	 * The C.java file modified in this test has an inner class - this means the inner class has a this$0 field and <init>(C) ctor
 	 * to watch out for when checking for structural changes
-	 * 
+	 *
 	 */
 	public void testStateManagement3() {
 		File binDirForInterproject1 = new File(getFile("interprojectdeps1", "bin"));
@@ -2398,7 +2392,7 @@ public class MultiProjectIncrementalTests extends AbstractMultiProjectIncrementa
 	/**
 	 * The C.java file modified in this test has an inner class - which has two ctors - this checks how they are mangled with an
 	 * instance of C.
-	 * 
+	 *
 	 */
 	public void testStateManagement4() {
 		File binDirForInterproject2 = new File(getFile("interprojectdeps2", "bin"));
@@ -2423,7 +2417,7 @@ public class MultiProjectIncrementalTests extends AbstractMultiProjectIncrementa
 	/**
 	 * The C.java file modified in this test has an inner class - it has two ctors but also a reference to C.this in it - which will
 	 * give rise to an accessor being created in C
-	 * 
+	 *
 	 */
 	public void testStateManagement5() {
 		File binDirForInterproject3 = new File(getFile("interprojectdeps3", "bin"));
@@ -2713,7 +2707,7 @@ public class MultiProjectIncrementalTests extends AbstractMultiProjectIncrementa
 		checkWasFullBuild();
 		int l = AjdeInteractionTestbed.MyStateListener.detectedDeletions.size();
 		assertTrue("Expected one deleted file to be noticed, but detected: " + l, l == 1);
-		String name = (String) AjdeInteractionTestbed.MyStateListener.detectedDeletions.get(0);
+		String name = AjdeInteractionTestbed.MyStateListener.detectedDeletions.get(0);
 		assertTrue("Should end with C2.java but is " + name, name.endsWith("C2.java"));
 	}
 
@@ -2729,7 +2723,7 @@ public class MultiProjectIncrementalTests extends AbstractMultiProjectIncrementa
 		checkWasFullBuild();
 		int l = AjdeInteractionTestbed.MyStateListener.detectedDeletions.size();
 		assertTrue("Expected one deleted file to be noticed, but detected: " + l, l == 1);
-		String name = (String) AjdeInteractionTestbed.MyStateListener.detectedDeletions.get(0);
+		String name = AjdeInteractionTestbed.MyStateListener.detectedDeletions.get(0);
 		assertTrue("Should end with C2.java but is " + name, name.endsWith("C2.java"));
 	}
 
@@ -2770,13 +2764,13 @@ public class MultiProjectIncrementalTests extends AbstractMultiProjectIncrementa
 		List<IMessage> errors = getErrorMessages("PR119882");
 		assertTrue("Should be at least one error, but got none", errors.size() == 1);
 		assertEquals("error message should be 'i cannot be resolved to a variable' ", "i cannot be resolved to a variable",
-				((IMessage) errors.get(0)).getMessage());
+				errors.get(0).getMessage());
 		alter("PR119882", "inc2");
 		build("PR119882");
 		assertTrue("There should be no exceptions handled:\n" + getCompilerErrorMessages("PR119882"),
 				getCompilerErrorMessages("PR119882").isEmpty());
 		assertEquals("error message should be 'i cannot be resolved to a variable' ", "i cannot be resolved to a variable",
-				((IMessage) errors.get(0)).getMessage());
+				errors.get(0).getMessage());
 
 	}
 
@@ -2842,8 +2836,8 @@ public class MultiProjectIncrementalTests extends AbstractMultiProjectIncrementa
 		List<IMessage> secondBuildMessages = getWeavingMessages("pr128655");
 		// check they are the same
 		for (int i = 0; i < firstBuildMessages.size(); i++) {
-			IMessage m1 = (IMessage) firstBuildMessages.get(i);
-			IMessage m2 = (IMessage) secondBuildMessages.get(i);
+			IMessage m1 = firstBuildMessages.get(i);
+			IMessage m2 = secondBuildMessages.get(i);
 			if (!m1.toString().equals(m2.toString())) {
 				System.err.println("Message during first build was: " + m1);
 				System.err.println("Message during second build was: " + m1);
@@ -2866,8 +2860,8 @@ public class MultiProjectIncrementalTests extends AbstractMultiProjectIncrementa
 		List<IMessage> secondBuildMessages = getWeavingMessages("pr128655_2");
 		// check they are the same
 		for (int i = 0; i < firstBuildMessages.size(); i++) {
-			IMessage m1 = (IMessage) firstBuildMessages.get(i);
-			IMessage m2 = (IMessage) secondBuildMessages.get(i);
+			IMessage m1 = firstBuildMessages.get(i);
+			IMessage m2 = secondBuildMessages.get(i);
 			if (!m1.toString().equals(m2.toString())) {
 				System.err.println("Message during first build was: " + m1);
 				System.err.println("Message during second build was: " + m1);
@@ -2909,7 +2903,6 @@ public class MultiProjectIncrementalTests extends AbstractMultiProjectIncrementa
 	}
 
 	public void testIncrementalIntelligence_Scenario01() {
-		AjdeInteractionTestbed.VERBOSE = true;
 		initialiseProject("Project1");
 		initialiseProject("Project2");
 		configureNewProjectDependency("Project2", "Project1");
@@ -2972,37 +2965,37 @@ public class MultiProjectIncrementalTests extends AbstractMultiProjectIncrementa
 	 * public void testPrReducingDependentBuilds_001_221427() { AjdeInteractionTestbed.VERBOSE=true;
 	 * IncrementalStateManager.debugIncrementalStates=true; initialiseProject("P221427_1"); initialiseProject("P221427_2");
 	 * configureNewProjectDependency("P221427_2","P221427_1");
-	 * 
+	 *
 	 * build("P221427_1"); build("P221427_2"); alter("P221427_1","inc1"); // rename private class in super project
 	 * MyStateListener.reset(); build("P221427_1"); build("P221427_2");
-	 * 
+	 *
 	 * AjState ajs = IncrementalStateManager.findStateManagingOutputLocation(new File(getFile("P221427_1","bin")));
 	 * assertTrue("There should be state for project P221427_1",ajs!=null);
 	 * //System.out.println(MyStateListener.getInstance().getDecisions()); checkWasntFullBuild();
 	 * assertTrue("Should be one structural change but there were "+ ajs.getNumberOfStructuralChangesSinceLastFullBuild(),
 	 * ajs.getNumberOfStructuralChangesSinceLastFullBuild()==1);
-	 * 
+	 *
 	 * }
-	 * 
+	 *
 	 * // Case002: changing a class to final that is extended in a dependent project public void
 	 * testPrReducingDependentBuilds_002_221427() { AjdeInteractionTestbed.VERBOSE=true;
 	 * IncrementalStateManager.debugIncrementalStates=true; initialiseProject("P221427_3"); initialiseProject("P221427_4");
 	 * configureNewProjectDependency("P221427_4","P221427_3");
-	 * 
+	 *
 	 * build("P221427_3"); build("P221427_4"); // build OK, type in super project is non-final alter("P221427_3","inc1"); // change
 	 * class declaration in super-project to final MyStateListener.reset(); build("P221427_3"); build("P221427_4"); // build FAIL,
 	 * type in super project is now final
-	 * 
+	 *
 	 * AjState ajs = IncrementalStateManager.findStateManagingOutputLocation(new File(getFile("P221427_3","bin")));
 	 * assertTrue("There should be state for project P221427_3",ajs!=null);
 	 * System.out.println(MyStateListener.getInstance().getDecisions());
-	 * 
+	 *
 	 * List errors = getErrorMessages("P221427_4"); if (errors.size()!=1) { if (errors.size()==0)
 	 * fail("Expected error about not being able to extend final class"); for (Iterator iterator = errors.iterator();
 	 * iterator.hasNext();) { Object object = (Object) iterator.next(); System.out.println(object); }
 	 * fail("Expected 1 error but got "+errors.size()); } // assertTrue("Shouldn't be one structural change but there were "+ //
 	 * ajs.getNumberOfStructuralChangesSinceLastFullBuild(), // ajs.getNumberOfStructuralChangesSinceLastFullBuild()==1);
-	 * 
+	 *
 	 * }
 	 */
 	// test for comment #6 - simulates AJDT core builder test testBug99133a -
@@ -3566,7 +3559,7 @@ public class MultiProjectIncrementalTests extends AbstractMultiProjectIncrementa
 		build("PR154054");
 		checkWasntFullBuild();
 	}
-	
+
 	public void testIncrementalBuildAdviceChange_456801() throws Exception {
 		initialiseProject("456801");
 		build("456801");
@@ -3614,7 +3607,7 @@ public class MultiProjectIncrementalTests extends AbstractMultiProjectIncrementa
 	public void testPR164384_1() {
 		initialiseProject("PR164384");
 
-		Hashtable<String, String> javaOptions = new Hashtable<String, String>();
+		Map<String, String> javaOptions = new Hashtable<>();
 		javaOptions.put("org.eclipse.jdt.core.compiler.compliance", "1.6");
 		javaOptions.put("org.eclipse.jdt.core.compiler.codegen.targetPlatform", "1.6");
 		javaOptions.put("org.eclipse.jdt.core.compiler.source", "1.6");
@@ -3627,7 +3620,7 @@ public class MultiProjectIncrementalTests extends AbstractMultiProjectIncrementa
 			assertTrue("There should be no errors:\n" + errors, errors.isEmpty());
 		} else {
 			String expectedError = "Java 6.0 compliance level is unsupported";
-			String found = ((IMessage) errors.get(0)).getMessage();
+			String found = errors.get(0).getMessage();
 			assertEquals("Expected 'Java 6.0 compliance level is unsupported'" + " error message but found " + found,
 					expectedError, found);
 			// This is because the 'Java 6.0 compliance' error is an 'error'
@@ -3646,7 +3639,7 @@ public class MultiProjectIncrementalTests extends AbstractMultiProjectIncrementa
 	public void testPR164384_2() {
 		initialiseProject("PR164384");
 
-		Hashtable<String, String> javaOptions = new Hashtable<String, String>();
+		Map<String, String> javaOptions = new Hashtable<>();
 		javaOptions.put("org.eclipse.jdt.core.compiler.compliance", "1.6");
 		javaOptions.put("org.eclipse.jdt.core.compiler.codegen.targetPlatform", "1.5");
 		javaOptions.put("org.eclipse.jdt.core.compiler.source", "1.5");
@@ -3658,7 +3651,7 @@ public class MultiProjectIncrementalTests extends AbstractMultiProjectIncrementa
 			assertTrue("There should be no errors:\n" + errors, errors.isEmpty());
 		} else {
 			String expectedError = "Java 6.0 compliance level is unsupported";
-			String found = ((IMessage) errors.get(0)).getMessage();
+			String found = errors.get(0).getMessage();
 			assertEquals("Expected 'Java 6.0 compliance level is unsupported'" + " error message but found " + found,
 					expectedError, found);
 			// This is because the 'Java 6.0 compliance' error is an 'error'
@@ -3676,7 +3669,7 @@ public class MultiProjectIncrementalTests extends AbstractMultiProjectIncrementa
 	public void testPR164384_3() {
 		initialiseProject("PR164384");
 
-		Hashtable<String, String> javaOptions = new Hashtable<String, String>();
+		Map<String, String> javaOptions = new Hashtable<>();
 		javaOptions.put("org.eclipse.jdt.core.compiler.compliance", "1.6");
 		javaOptions.put("org.eclipse.jdt.core.compiler.codegen.targetPlatform", "1.6");
 		javaOptions.put("org.eclipse.jdt.core.compiler.source", "1.5");
@@ -3689,7 +3682,7 @@ public class MultiProjectIncrementalTests extends AbstractMultiProjectIncrementa
 			assertTrue("There should be no errros:\n" + errors, errors.isEmpty());
 		} else {
 			String expectedError = "Java 6.0 compliance level is unsupported";
-			String found = ((IMessage) errors.get(0)).getMessage();
+			String found = errors.get(0).getMessage();
 			assertEquals("Expected 'Java 6.0 compliance level is unsupported'" + " error message but found " + found,
 					expectedError, found);
 			// This is because the 'Java 6.0 compliance' error is an 'error'
@@ -3709,7 +3702,7 @@ public class MultiProjectIncrementalTests extends AbstractMultiProjectIncrementa
 
 		// set up the inpath to have the directory on it's path
 		File f = new File(inpathDir);
-		Set<File> s = new HashSet<File>();
+		Set<File> s = new HashSet<>();
 		s.add(f);
 		configureInPath("inpathTesting", s);
 		build("inpathTesting");
@@ -3734,7 +3727,6 @@ public class MultiProjectIncrementalTests extends AbstractMultiProjectIncrementa
 
 	// warning about cant change parents of Object is fine
 	public void testInpathHandles_271201() throws Exception {
-		AjdeInteractionTestbed.VERBOSE = true;
 		String p = "inpathHandles";
 		initialiseProject(p);
 
@@ -3744,7 +3736,7 @@ public class MultiProjectIncrementalTests extends AbstractMultiProjectIncrementa
 		// set up the inpath to have the directory on it's path
 		System.out.println(inpathDir);
 		File f = new File(inpathDir);
-		Set<File> s = new HashSet<File>();
+		Set<File> s = new HashSet<>();
 		s.add(f);
 		configureInPath(p, s);
 		build(p);
@@ -3766,7 +3758,6 @@ public class MultiProjectIncrementalTests extends AbstractMultiProjectIncrementa
 
 	// warning about cant change parents of Object is fine
 	public void testInpathHandles_IncrementalCompilation_271201() throws Exception {
-		AjdeInteractionTestbed.VERBOSE = true;
 		String p = "inpathHandles";
 		initialiseProject(p);
 
@@ -3775,7 +3766,7 @@ public class MultiProjectIncrementalTests extends AbstractMultiProjectIncrementa
 
 		// set up the inpath to have the directory on it's path
 		File f = new File(inpathDir);
-		Set<File> s = new HashSet<File>();
+		Set<File> s = new HashSet<>();
 		s.add(f);
 		configureInPath(p, s);
 
@@ -3802,7 +3793,6 @@ public class MultiProjectIncrementalTests extends AbstractMultiProjectIncrementa
 	}
 
 	public void testInpathHandles_WithInpathMap_271201() throws Exception {
-		AjdeInteractionTestbed.VERBOSE = true;
 		String p = "inpathHandles";
 		initialiseProject(p);
 
@@ -3813,9 +3803,9 @@ public class MultiProjectIncrementalTests extends AbstractMultiProjectIncrementa
 		// set up the inpath to have the directory on it's path
 		System.out.println(inpathDir);
 		File f = new File(inpathDir);
-		Set<File> s = new HashSet<File>();
+		Set<File> s = new HashSet<>();
 		s.add(f);
-		Map<File, String> m = new HashMap<File, String>();
+		Map<File, String> m = new HashMap<>();
 		m.put(f, "wibble");
 		configureOutputLocationManager(p, new TestOutputLocationManager(getProjectRelativePath(p, ".").toString(), m));
 
@@ -3850,7 +3840,6 @@ public class MultiProjectIncrementalTests extends AbstractMultiProjectIncrementa
 	}
 
 	public void testInpathHandles_IncrementalCompilation_RemovingInpathEntries_271201() throws Exception {
-		AjdeInteractionTestbed.VERBOSE = true;
 		String p = "inpathHandles2";
 		initialiseProject(p);
 
@@ -3902,7 +3891,7 @@ public class MultiProjectIncrementalTests extends AbstractMultiProjectIncrementa
 	/**
 	 * Retrieve program elements related to this one regardless of the relationship. A JUnit assertion is made that the number that
 	 * the 'expected' number are found.
-	 * 
+	 *
 	 * @param programElement Program element whose related elements are to be found
 	 * @param expected the number of expected related elements
 	 */
@@ -3921,7 +3910,7 @@ public class MultiProjectIncrementalTests extends AbstractMultiProjectIncrementa
 
 	private IProgramElement getFirstRelatedElement(AsmManager model, IProgramElement programElement) {
 		List<String> rels = getRelatedElements(model, programElement, 1);
-		return model.getHierarchy().findElementForHandle((String) rels.get(0));
+		return model.getHierarchy().findElementForHandle(rels.get(0));
 	}
 
 	private List<String> getRelatedElements(AsmManager model, IProgramElement advice) {
@@ -3934,7 +3923,7 @@ public class MultiProjectIncrementalTests extends AbstractMultiProjectIncrementa
 		for (IRelationship element : rels) {
 			List<String> targets = element.getTargets();
 			if (output == null) {
-				output = new ArrayList<String>();
+				output = new ArrayList<>();
 			}
 			output.addAll(targets);
 		}
@@ -3953,7 +3942,7 @@ public class MultiProjectIncrementalTests extends AbstractMultiProjectIncrementa
 			}
 		}
 		List<IProgramElement> kids = ipe.getChildren();
-		for (IProgramElement kid: kids) {			
+		for (IProgramElement kid: kids) {
 			IProgramElement found = findAdvice(kid, whichOne);
 			if (found != null) {
 				return found;

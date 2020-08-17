@@ -1,12 +1,12 @@
 /* *******************************************************************
  * Copyright (c) 2004,2010 Contributors
- * All rights reserved. 
- * This program and the accompanying materials are made available 
- * under the terms of the Eclipse Public License v1.0 
- * which accompanies this distribution and is available at 
- * http://www.eclipse.org/legal/epl-v10.html 
- *  
- * Contributors: 
+ * All rights reserved.
+ * This program and the accompanying materials are made available
+ * under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
  *     Matthew Webster, IBM
  * ******************************************************************/
 package org.aspectj.weaver;
@@ -17,7 +17,6 @@ import java.io.PrintStream;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
 
@@ -506,15 +505,15 @@ public class Dump {
 
 	public interface INode {
 
-		public void accept(IVisitor visior);
+		void accept(IVisitor visior);
 
 	}
 
 	public interface IVisitor {
 
-		public void visitObject(Object s);
+		void visitObject(Object s);
 
-		public void visitList(List list);
+		void visitList(List list);
 	}
 
 }

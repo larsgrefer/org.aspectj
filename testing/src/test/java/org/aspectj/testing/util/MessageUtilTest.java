@@ -19,7 +19,6 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 
 import org.aspectj.bridge.IMessage;
@@ -71,9 +70,8 @@ public class MessageUtilTest extends TestCase {
 
     List getSampleMessageTexts() {
         if (null == messageTexts) {
-            ArrayList result = new ArrayList();
-            result.addAll(Arrays.asList(new String[]
-                { "one", "two", "now is the time for all good men..." }));
+			List result = new ArrayList(Arrays.asList(new String[]
+					{"one", "two", "now is the time for all good men..."}));
             messageTexts = result;
         }
         return messageTexts;
@@ -81,7 +79,7 @@ public class MessageUtilTest extends TestCase {
     
     List getSampleExceptions() {
         if (null == exceptions) {
-            ArrayList result = new ArrayList();
+            List result = new ArrayList();
             int i = 1;
             result.add(new Error("Error " + i++));
             result.add(new RuntimeException("RuntimeException " + i++));
@@ -93,7 +91,7 @@ public class MessageUtilTest extends TestCase {
 
     List getSampleLocations() {
         if (null == locations) {
-            ArrayList result = new ArrayList();
+            List result = new ArrayList();
             File file = new File("testsrc/org/aspectj/testing/util/MessageUtilTest.java");
             result.add(new SourceLocation(file, 1, 2, 1));
             result.add(new SourceLocation(file, 100, 100, 0));

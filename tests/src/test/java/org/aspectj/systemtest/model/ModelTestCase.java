@@ -15,7 +15,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.aspectj.asm.AsmManager;
@@ -133,7 +132,7 @@ public abstract class ModelTestCase extends XMLBasedAjcTestCase {
 	private void compareModel(File expectedF) {
 		if (debugTest)
 			System.out.println("comparing with model in file " + expectedF.getAbsolutePath());
-		List<String> fileContents = new ArrayList<String>();
+		List<String> fileContents = new ArrayList<>();
 		try {
 			// String sandboxDir = ajc.getSandboxDirectory().getAbsolutePath();
 			String modelOutput = modelFilename;
@@ -144,13 +143,12 @@ public abstract class ModelTestCase extends XMLBasedAjcTestCase {
 			while ((expectedLine = expect.readLine()) != null) {
 				fileContents.add(expectedLine);
 			}
-			List<String> expectedFileContents = new ArrayList<String>();
-			expectedFileContents.addAll(fileContents);
+			List<String> expectedFileContents = new ArrayList<>(fileContents);
 
 			// Load the file with the output from this test run
 			BufferedReader found = new BufferedReader(new FileReader(new File(modelOutput)));
 			String foundLine = null;
-			List<String> foundFileContents = new ArrayList<String>();
+			List<String> foundFileContents = new ArrayList<>();
 			while ((foundLine = found.readLine()) != null) {
 				// int i = foundLine.indexOf(sandboxDir);
 				// if (i == -1) {

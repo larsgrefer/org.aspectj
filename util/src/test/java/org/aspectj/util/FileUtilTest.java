@@ -62,7 +62,7 @@ public class FileUtilTest extends TestCase {
 	 * @throws AssertionFailedError if any names are not in dir
 	 */
 	public static String[] dirContains(File dir, final String[] filenames) {
-		final ArrayList<String> sought = new ArrayList<>(LangUtil.arrayAsList(filenames));
+		final List<String> sought = new ArrayList<>(LangUtil.arrayAsList(filenames));
 		FilenameFilter filter = new FilenameFilter() {
 			public boolean accept(File d, String name) {
 				return !sought.remove(name);
@@ -129,7 +129,7 @@ public class FileUtilTest extends TestCase {
 	 * @return sorted String[] of all paths to all files under dir ending with one of the listed suffixes but not starting with "."
 	 */
 	public static String[] dirPaths(File dir, String[] suffixes) {
-		ArrayList<String> result = new ArrayList<String>();
+		ArrayList<String> result = new ArrayList<>();
 		doDirPaths(dir, result);
 		// if suffixes required, remove those without suffixes
 		if (!LangUtil.isEmpty(suffixes)) {
@@ -188,11 +188,11 @@ public class FileUtilTest extends TestCase {
 	}
 
 	/** List of File files or directories to delete when exiting */
-	final ArrayList<File> tempFiles;
+	final List<File> tempFiles;
 
 	public FileUtilTest(String s) {
 		super(s);
-		tempFiles = new ArrayList<File>();
+		tempFiles = new ArrayList<>();
 	}
 
 	public void tearDown() {
@@ -388,7 +388,7 @@ public class FileUtilTest extends TestCase {
 	}
 
 	public void testRandomFileString() {
-		ArrayList<String> results = new ArrayList<>();
+		List<String> results = new ArrayList<>();
 		for (int i = 0; i < 1000; i++) {
 			String s = FileUtil.randomFileString();
 			if (results.contains(s)) {
@@ -459,10 +459,10 @@ public class FileUtilTest extends TestCase {
 		contents += contents;
 		FileUtil.writeAsString(file, contents);
 		tempFiles.add(file);
-		List<String> sourceList = new ArrayList<String>();
+		List<String> sourceList = new ArrayList<>();
 		sourceList.add(file.getPath());
 
-		final ArrayList<String> errors = new ArrayList<String>();
+		final List<String> errors = new ArrayList<>();
 		final PrintStream errorSink = new PrintStream(System.err, true) {
 			public void println(String error) {
 				errors.add(error);
@@ -502,14 +502,13 @@ public class FileUtilTest extends TestCase {
 			tempFiles.add(file);
 		}
 		// now test
-		final ArrayList<String> errors = new ArrayList<>();
+		final List<String> errors = new ArrayList<>();
 		final PrintStream errorSink = new PrintStream(System.err, true) {
 			public void println(String error) {
 				errors.add(error);
 			}
 		};
-		List<String> sourceList = new ArrayList<>();
-		sourceList.addAll(Arrays.asList(sources));
+		List<String> sourceList = new ArrayList<>(Arrays.asList(sources));
 		sourceList = Collections.unmodifiableList(sourceList);
 		for (int k = 0; k < sources.length; k++) {
 			List<String> result = FileUtil.lineSeek("" + k, sourceList, true, errorSink);

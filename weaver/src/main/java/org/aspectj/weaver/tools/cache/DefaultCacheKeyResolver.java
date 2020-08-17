@@ -15,7 +15,6 @@ package org.aspectj.weaver.tools.cache;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.zip.CRC32;
@@ -49,7 +48,7 @@ public class DefaultCacheKeyResolver implements CacheKeyResolver {
 	public String createClassLoaderScope(ClassLoader cl, List<String> aspects) {
 		String name = cl != null ? cl.getClass().getSimpleName() : "unknown";
 
-		List<String> hashableStrings = new LinkedList<String>();
+		List<String> hashableStrings = new LinkedList<>();
 		StringBuilder hashable = new StringBuilder(256);
 
 		// Add the list of loader urls to the hash list

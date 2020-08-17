@@ -16,7 +16,6 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.aspectj.apache.bcel.classfile.Attribute;
@@ -34,13 +33,13 @@ public abstract class RuntimeAnnos extends Attribute {
 	public RuntimeAnnos(byte attrid, boolean visible, int nameIdx, int len, ConstantPool cpool) {
 		super(attrid, nameIdx, len, cpool);
 		this.visible = visible;
-		annotations = new ArrayList<AnnotationGen>();
+		annotations = new ArrayList<>();
 	}
 
 	public RuntimeAnnos(byte attrid, boolean visible, int nameIdx, int len, byte[] data, ConstantPool cpool) {
 		super(attrid, nameIdx, len, cpool);
 		this.visible = visible;
-		annotations = new ArrayList<AnnotationGen>();
+		annotations = new ArrayList<>();
 		annotation_data = data;
 	}
 
@@ -76,7 +75,7 @@ public abstract class RuntimeAnnos extends Attribute {
 			DataInputStream dis = new DataInputStream(new ByteArrayInputStream(annotation_data));
 			int numberOfAnnotations = dis.readUnsignedShort();
 			if (numberOfAnnotations > 0) {
-				List<AnnotationGen> inflatedAnnotations = new ArrayList<AnnotationGen>();
+				List<AnnotationGen> inflatedAnnotations = new ArrayList<>();
 				for (int i = 0; i < numberOfAnnotations; i++) {
 					inflatedAnnotations.add(AnnotationGen.read(dis, getConstantPool(), visible));
 				}

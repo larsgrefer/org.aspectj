@@ -83,7 +83,7 @@ abstract public class AbstractRunSpec implements IRunSpec {
 	private boolean skipAll;
 
 	protected String xmlElementName; // nonfinal only for clone()
-	protected final ArrayList<String> keywords;
+	protected final List<String> keywords;
 	protected final IMessageHolder /* IMessage */messages;
 	protected final ArrayList<String> options;
 	protected final ArrayList<String> paths;
@@ -109,11 +109,11 @@ abstract public class AbstractRunSpec implements IRunSpec {
 		}
 		this.xmlElementName = xmlElementName;
 		messages = new MessageHandler(true);
-		options = new ArrayList<String>();
-		paths = new ArrayList<String>();
+		options = new ArrayList<>();
+		paths = new ArrayList<>();
 		// XXXXXunused sourceLocations = new ArrayList();
-		keywords = new ArrayList<String>();
-		children = new ArrayList<IRunSpec>();
+		keywords = new ArrayList<>();
+		children = new ArrayList<>();
 		dirChanges = new ArrayList<>();
 		xmlNames = XMLNames.DEFAULT;
 		runtime = new RT();
@@ -197,7 +197,7 @@ abstract public class AbstractRunSpec implements IRunSpec {
 		}
 	}
 
-	public ArrayList<String> getKeywordsList() {
+	public List<String> getKeywordsList() {
 		return makeList(keywords);
 	}
 
@@ -257,7 +257,7 @@ abstract public class AbstractRunSpec implements IRunSpec {
 
 	// --------------- (String) paths
 	/** @return ArrayList of String paths */
-	public ArrayList<String> getPathsList() {
+	public List<String> getPathsList() {
 		return makeList(paths);
 	}
 
@@ -371,12 +371,12 @@ abstract public class AbstractRunSpec implements IRunSpec {
 	/** @return copy of children list without children to skip */
 	public ArrayList<IRunSpec> getWorkingChildren() {
 		if (skipAll) {
-			return new ArrayList<IRunSpec>();
+			return new ArrayList<>();
 		}
 		if (null == skipSet) {
 			return getChildren();
 		}
-		ArrayList<IRunSpec> result = new ArrayList<IRunSpec>();
+		ArrayList<IRunSpec> result = new ArrayList<>();
 		int i = 0;
 		for (Iterator<IRunSpec> iter = children.listIterator(); iter.hasNext(); i++) {
 			IRunSpec child = iter.next();
@@ -700,7 +700,7 @@ abstract public class AbstractRunSpec implements IRunSpec {
 	}
 
 	private <T> ArrayList<T> makeList(List<T> list) {
-		ArrayList<T> result = new ArrayList<T>();
+		ArrayList<T> result = new ArrayList<>();
 		if (null != list) {
 			result.addAll(list);
 		}
@@ -779,7 +779,7 @@ abstract public class AbstractRunSpec implements IRunSpec {
 		final private ArrayList<String> parentOptions;
 
 		public RT() {
-			parentOptions = new ArrayList<String>();
+			parentOptions = new ArrayList<>();
 		}
 
 		public boolean isVerbose() {
@@ -879,7 +879,7 @@ abstract public class AbstractRunSpec implements IRunSpec {
 			if (LangUtil.isEmpty(validOptions) || LangUtil.isEmpty(parentOptions)) {
 				return new String[0];
 			}
-			ArrayList<String> result = new ArrayList<String>();
+			ArrayList<String> result = new ArrayList<>();
 			// boolean haveOption = false;
 			for (String option : validOptions) {
 				if (LangUtil.isEmpty(option)) {

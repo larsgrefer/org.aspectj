@@ -11,8 +11,6 @@
  * ******************************************************************/
 package org.aspectj.weaver.tools;
 
-import org.aspectj.util.LangUtil;
-
 import junit.framework.TestCase;
 
 /**
@@ -30,7 +28,6 @@ public class PointcutDesignatorHandlerTest extends TestCase {
 	
 	/** this condition can occur on the build machine only, and is way too complex to fix right now... */
 	private boolean needToSkipPointcutParserTests() {
-		if (!LangUtil.is15VMOrGreater()) return false;
 		try {
 			Class.forName("org.aspectj.weaver.reflect.Java15ReflectionBasedReferenceTypeDelegate",false,this.getClass().getClassLoader());//ReflectionBasedReferenceTypeDelegate.class.getClassLoader()); 
 		} catch (ClassNotFoundException cnfEx) {

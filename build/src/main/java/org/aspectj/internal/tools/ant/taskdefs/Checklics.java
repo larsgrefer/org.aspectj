@@ -83,7 +83,7 @@ public class Checklics extends MatchingTask {
 		License MPL_ONLY = new License(MPL_ONLY_TAG, LIC_MPL);
 		License MPL_PARC = new License(MPL_PARC_TAG, LIC_MPL, PARC);
 		License PARC_COPYRIGHT = new License(PARC_COPYRIGHT_TAG, null, PARC);
-		LICENSES = new Hashtable<String,License>();
+		LICENSES = new Hashtable<>();
 		LICENSES.put(APL.tag, APL);
 		LICENSES.put(MPL.tag, MPL);
 		LICENSES.put(MPL_PARC.tag, MPL_PARC);
@@ -469,8 +469,7 @@ class HeaderInfo {
 		this.lastLine = lastLine;
 		this.file = file;
 		this.hasLicense = hasLicense;
-		List<String> newYears = new ArrayList<String>();
-		newYears.addAll(years);
+		List<String> newYears = new ArrayList<>(years);
 		Collections.sort(newYears);
 		this.years = Collections.unmodifiableList(newYears);
 		if ((null == file) || !file.canWrite()) {
@@ -618,7 +617,7 @@ class Header {
 	}
 
 	public static HeaderInfo checkFile(final File file) {
-		ArrayList<String> years = new ArrayList<String>();
+		ArrayList<String> years = new ArrayList<>();
 		int endLine = 0;
 		BufferedReader input = null;
 		int lineNum = 0;
@@ -655,7 +654,7 @@ class Header {
 	 *
 	 * @return true if this line has end-of-comment
 	 */
-	private static boolean checkLine(String line, ArrayList<String> years) {
+	private static boolean checkLine(String line, List<String> years) {
 		if ((null == line) || (0 == line.length())) {
 			return false;
 		}

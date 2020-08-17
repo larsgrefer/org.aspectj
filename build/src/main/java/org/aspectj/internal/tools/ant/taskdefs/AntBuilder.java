@@ -22,7 +22,6 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Hashtable;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -409,7 +408,7 @@ public class AntBuilder extends Builder {
 	 */
 	@Override
 	protected Result[] getAntecedantResults(Result moduleResult) {
-		Hashtable<String,Target> targets = new Hashtable<String, Target>();
+		Hashtable<String,Target> targets = new Hashtable<>();
 		makeTargetsForResult(moduleResult, targets);
 		String targetName = resultToTargetName(moduleResult);
 		// bug: doc says topoSort returns String, but returns Target
@@ -419,7 +418,7 @@ public class AntBuilder extends Builder {
 		if (0 == result.size()) {
 			return new Result[0];
 		}
-		ArrayList<String> toReturn = new ArrayList<String>();
+		ArrayList<String> toReturn = new ArrayList<>();
 		for (Target target : result) {
 			String name = target.getName();
 			if (null == name) {

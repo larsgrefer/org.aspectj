@@ -18,7 +18,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Stack;
@@ -541,7 +540,7 @@ public class AsmHierarchyBuilder extends ASTVisitor {
 			Declare decl = dDeclaration.declareDecl;
 			if (decl instanceof DeclareParents) {
 				TypePatternList tpl = ((DeclareParents) decl).getParents();
-				List<String> parents = new ArrayList<String>();
+				List<String> parents = new ArrayList<>();
 				for (int i = 0; i < tpl.size(); i++) {
 					parents.add(tpl.get(i).getExactType().getName().replaceAll("\\$", "."));
 				}

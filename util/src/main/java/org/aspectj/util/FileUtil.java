@@ -39,7 +39,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.zip.ZipEntry;
@@ -686,7 +685,7 @@ public class FileUtil {
 	 * @return ArrayList with String paths of File under srcDir (relative to srcDir)
 	 */
 	public static String[] listFiles(File srcDir) {
-		ArrayList<String> result = new ArrayList<String>();
+		ArrayList<String> result = new ArrayList<>();
 		if ((null != srcDir) && srcDir.canRead()) {
 			listFiles(srcDir, null, result);
 		}
@@ -706,11 +705,11 @@ public class FileUtil {
 	 * @return ArrayList with String paths of File under srcDir (relative to srcDir)
 	 */
 	public static File[] listFiles(File srcDir, FileFilter fileFilter) {
-		ArrayList<File> result = new ArrayList<File>();
+		ArrayList<File> result = new ArrayList<>();
 		if ((null != srcDir) && srcDir.canRead()) {
 			listFiles(srcDir, result, fileFilter);
 		}
-		return result.toArray(new File[result.size()]);
+		return result.toArray(new File[0]);
 	}
 
 	/**
@@ -719,7 +718,7 @@ public class FileUtil {
 	 * @return List of File objects
 	 */
 	public static List<File> listClassFiles(File dir) {
-		ArrayList<File> result = new ArrayList<File>();
+		ArrayList<File> result = new ArrayList<>();
 		if ((null != dir) && dir.canRead()) {
 			listClassFiles(dir, result);
 		}
@@ -750,7 +749,7 @@ public class FileUtil {
 		LangUtil.throwIaxIfNull(paths, "paths");
 		File[] result = null;
 		if (!LangUtil.isEmpty(suffixes)) {
-			ArrayList<File> list = new ArrayList<File>();
+			ArrayList<File> list = new ArrayList<>();
             for (String path : paths) {
                 for (String suffix : suffixes) {
                     if (path.endsWith(suffix)) {
@@ -1273,7 +1272,7 @@ public class FileUtil {
 		if (LangUtil.isEmpty(sought) || LangUtil.isEmpty(sources)) {
 			return Collections.emptyList();
 		}
-		ArrayList<String> result = new ArrayList<String>();
+		ArrayList<String> result = new ArrayList<>();
         for (String path : sources) {
             String error = lineSeek(sought, path, listAll, result);
             if ((null != error) && (null != errorSink)) {
@@ -1294,7 +1293,7 @@ public class FileUtil {
 	 * @param List sink the List for String entries of the form {sourcePath}:line:column
 	 * @return String error if any, or add String entries to sink
 	 */
-	public static String lineSeek(String sought, String sourcePath, boolean listAll, ArrayList<String> sink) {
+	public static String lineSeek(String sought, String sourcePath, boolean listAll, List<String> sink) {
 		if (LangUtil.isEmpty(sought) || LangUtil.isEmpty(sourcePath)) {
 			return "nothing sought";
 		}
@@ -1427,7 +1426,7 @@ public class FileUtil {
 	}
 
 	public static List<String> makeClasspath(URL[] urls) {
-		List<String> ret = new LinkedList<String>();
+		List<String> ret = new LinkedList<>();
 		if (urls != null) {
             for (URL url : urls) {
                 ret.add(toPathString(url));

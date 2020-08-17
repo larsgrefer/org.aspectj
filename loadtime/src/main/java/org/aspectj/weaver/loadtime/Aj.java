@@ -17,7 +17,6 @@ import java.security.ProtectionDomain;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -265,7 +264,7 @@ public class Aj implements ClassPreProcessor {
 			if (loadersToSkipProperty != null && loadersToSkip == null) {
 				if (st.hasMoreTokens()) {
 //					System.out.println("aj.weaving.loadersToSkip is set. Skipping loaders: '"+loadersToSkipProperty+"'");
-					loadersToSkip = new ArrayList<String>();
+					loadersToSkip = new ArrayList<>();
 				}
 				while (st.hasMoreTokens()) {
 					String nextLoader = st.nextToken();
@@ -283,7 +282,7 @@ public class Aj implements ClassPreProcessor {
 	static class WeaverContainer {
 
 		final static Map<AdaptorKey,ExplicitlyInitializedClassLoaderWeavingAdaptor> weavingAdaptors = 
-				Collections.synchronizedMap(new HashMap<AdaptorKey,ExplicitlyInitializedClassLoaderWeavingAdaptor>());
+				Collections.synchronizedMap(new HashMap<>());
 
 		static WeavingAdaptor getWeaver(ClassLoader loader, IWeavingContext weavingContext) {
 			ExplicitlyInitializedClassLoaderWeavingAdaptor adaptor = null;

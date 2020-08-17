@@ -14,8 +14,6 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
-import org.aspectj.util.LangUtil;
-
 import junit.framework.TestCase;
 
 public class PointcutExpressionTest extends TestCase {
@@ -448,11 +446,7 @@ public class PointcutExpressionTest extends TestCase {
 		assertFalse("Matches maybe", ex.matchesMethodExecution(foo).alwaysMatches());
 		// never match
 		ex = p.parsePointcutExpression("args(String,Integer,Number)");
-		if (LangUtil.is15VMOrGreater()) {
-			assertTrue("matches", ex.matchesMethodExecution(foo).alwaysMatches());
-		} else {
-			assertTrue("Does not match", ex.matchesMethodExecution(foo).neverMatches());
-		}
+		assertTrue("matches", ex.matchesMethodExecution(foo).alwaysMatches());
 	}
 
 	// public void testMatchesDynamically() {

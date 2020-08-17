@@ -32,9 +32,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 
 /**
  * This gathers sample code delimited with [START..END]-SAMPLE
@@ -221,7 +219,7 @@ public class SampleGatherer {
                             source,
                             startLine,
                             endLine,
-                            flags.toArray(new String[flags.size()]));
+                            flags.toArray(new String[0]));
                     sink.addSample(sample);
 
                     // back to seeking start
@@ -404,7 +402,7 @@ class Sample {
  * type-safe Collection of samples.
  */
 class Samples {
-    private ArrayList<Sample> samples = new ArrayList<Sample>();
+    private ArrayList<Sample> samples = new ArrayList<>();
     int size() {
         return samples.size();
     }
@@ -419,9 +417,8 @@ class Samples {
     }
 
     List<Sample> getSortedSamples(Comparator<Sample> comparer) {
-        ArrayList<Sample> result = new ArrayList<Sample>();
-        result.addAll(samples);
-        Collections.sort(result, comparer);
+		List<Sample> result = new ArrayList<>(samples);
+        result.sort(comparer);
         return result;
     }
 }
@@ -966,7 +963,7 @@ class SampleUtil {
     }
 
     public static String[] splitAnchorName(String anchorName) {
-        ArrayList<String> result = new ArrayList<String>();
+        ArrayList<String> result = new ArrayList<>();
         int start = 0;
         int loc = anchorName.indexOf("-", start);
         String next;
@@ -978,7 +975,7 @@ class SampleUtil {
         }
         next  = anchorName.substring(start);
         result.add(next);
-        return result.toArray(new String[result.size()]);
+        return result.toArray(new String[0]);
     }
     /**
      * Replace literals with literals in source string

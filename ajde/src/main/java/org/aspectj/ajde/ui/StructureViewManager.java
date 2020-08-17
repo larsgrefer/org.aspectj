@@ -15,7 +15,6 @@
 package org.aspectj.ajde.ui;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.aspectj.ajde.Ajde;
@@ -36,7 +35,7 @@ public class StructureViewManager {
 	// private String buildConfigFilePath = null;
 
 	private final NavigationHistoryModel historyModel = new NavigationHistoryModel();
-	private final ArrayList structureViews = new ArrayList();
+	private final List structureViews = new ArrayList();
 	private FileStructureView defaultFileView = null;
 
 	private static final StructureViewProperties DEFAULT_VIEW_PROPERTIES;

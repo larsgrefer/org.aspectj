@@ -22,7 +22,6 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -719,7 +718,7 @@ public class AjcTask extends MatchingTask {
 	public CompilerArg createCompilerarg() {
 		CompilerArg compilerArg = new CompilerArg();
 		if (compilerArgs == null) {
-			compilerArgs = new ArrayList<CompilerArg>();
+			compilerArgs = new ArrayList<>();
 		}
 		compilerArgs.add(compilerArg);
 		return compilerArg;
@@ -1159,7 +1158,6 @@ public class AjcTask extends MatchingTask {
 
 	// package-private for testing
 	String[] makeCommand() {
-		ArrayList result = new ArrayList();
 		if (0 < ignored.size()) {
             for (Object o : ignored) {
                 logVerbose("ignored: " + o);
@@ -1182,7 +1180,7 @@ public class AjcTask extends MatchingTask {
 			outjarFixedup = true;
 		}
 
-		result.addAll(cmd.extractArguments());
+		ArrayList result = new ArrayList(cmd.extractArguments());
 		addListArgs(result);
 
 		String[] command = (String[]) result.toArray(new String[0]);
@@ -2038,7 +2036,7 @@ public class AjcTask extends MatchingTask {
 		// }
 
 		List extractArguments() {
-			ArrayList result = new ArrayList();
+			List result = new ArrayList();
 			String[] cmds = command.getArguments();
 			if (!LangUtil.isEmpty(cmds)) {
 				result.addAll(Arrays.asList(cmds));

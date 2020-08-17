@@ -17,7 +17,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Hashtable;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -39,7 +38,7 @@ public class IncrementalStateManager {
 	// SECRETAPI will consume more memory, so turn on at your own risk ;) Set to 'true' when memory usage is understood
 	public static boolean recordIncrementalStates = false;
 	public static boolean debugIncrementalStates = false;
-	private static Hashtable<String, AjState> incrementalStates = new Hashtable<String, AjState>();
+	private static Hashtable<String, AjState> incrementalStates = new Hashtable<>();
 
 	public static void recordSuccessfulBuild(String buildConfig, AjState state) {
 		if (!recordIncrementalStates) {

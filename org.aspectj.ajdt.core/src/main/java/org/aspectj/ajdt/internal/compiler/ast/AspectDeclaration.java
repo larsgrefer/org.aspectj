@@ -14,7 +14,6 @@ package org.aspectj.ajdt.internal.compiler.ast;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -84,8 +83,8 @@ public class AspectDeclaration extends TypeDeclaration {
 	public ResolvedMember aspectOfMethod;
 	public ResolvedMember ptwGetWithinTypeNameMethod;
 	public ResolvedMember hasAspectMethod;
-	public Map<ResolvedMember, Binding> accessForInline = new LinkedHashMap<ResolvedMember, Binding>();
-	public Map<ResolvedMember, AccessForInlineVisitor.SuperAccessMethodPair> superAccessForInline = new HashMap<ResolvedMember, AccessForInlineVisitor.SuperAccessMethodPair>();
+	public Map<ResolvedMember, Binding> accessForInline = new LinkedHashMap<>();
+	public Map<ResolvedMember, AccessForInlineVisitor.SuperAccessMethodPair> superAccessForInline = new HashMap<>();
 	public boolean isPrivileged;
 	public EclipseSourceType concreteName;
 	public ReferenceType typeX;
@@ -404,8 +403,8 @@ public class AspectDeclaration extends TypeDeclaration {
 		}
 	}
 
-	private static interface BodyGenerator {
-		public void generate(CodeStream codeStream);
+	private interface BodyGenerator {
+		void generate(CodeStream codeStream);
 	}
 
 	private void generateMethod(ClassFile classFile, ResolvedMember member, BodyGenerator gen) {
@@ -418,7 +417,7 @@ public class AspectDeclaration extends TypeDeclaration {
 	}
 
 	protected List<EclipseAttributeAdapter> makeEffectiveSignatureAttribute(ResolvedMember sig, Shadow.Kind kind, boolean weaveBody) {
-		List<EclipseAttributeAdapter> l = new ArrayList<EclipseAttributeAdapter>(1);
+		List<EclipseAttributeAdapter> l = new ArrayList<>(1);
 		l.add(new EclipseAttributeAdapter(new AjAttribute.EffectiveSignatureAttribute(sig, kind, weaveBody)));
 		return l;
 	}

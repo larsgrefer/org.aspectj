@@ -24,7 +24,6 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.swing.text.MutableAttributeSet;
@@ -171,10 +170,10 @@ public class LinkCheck {
     
     private final Messages messages;
     private final HTMLEditorKit.Parser parser; // XXX untested - stateful
-    private final ArrayList<Link> linksToCheck;
-    private final ArrayList<String> checkedUrls;  // String (URL.toString)
-    private final ArrayList<String> validRefs;  // String (URL.toString)
-    private final ArrayList<String> refsToCheck;  // String (URL.toString)
+    private final List<Link> linksToCheck;
+    private final List<String> checkedUrls;  // String (URL.toString)
+    private final List<String> validRefs;  // String (URL.toString)
+    private final List<String> refsToCheck;  // String (URL.toString)
     
     private final Link.Check checkExists;
     private final Link.Check checkContents;
@@ -186,10 +185,10 @@ public class LinkCheck {
         LangUtil.throwIaxIfNull(checkExists, "checkExists");
         LangUtil.throwIaxIfNull(checkContents, "checkContents");
         this.messages = new Messages(handler);
-        linksToCheck = new ArrayList<Link>();
-        checkedUrls = new ArrayList<String>();
-        refsToCheck = new ArrayList<String>();
-        validRefs = new ArrayList<String>();
+        linksToCheck = new ArrayList<>();
+        checkedUrls = new ArrayList<>();
+        refsToCheck = new ArrayList<>();
+        validRefs = new ArrayList<>();
         parser = new HTMLEditorKit() {
             public HTMLEditorKit.Parser getParser() {
                 return super.getParser();
@@ -221,7 +220,7 @@ public class LinkCheck {
     }
 
     public synchronized void run() {
-        ArrayList<Link> list = new ArrayList<Link>();
+        List<Link> list = new ArrayList<>();
         while (0 < linksToCheck.size()) {
             messages.checkingLinks(linksToCheck.size());
             list.clear();

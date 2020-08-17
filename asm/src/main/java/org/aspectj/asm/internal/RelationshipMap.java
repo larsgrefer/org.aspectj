@@ -15,7 +15,6 @@ package org.aspectj.asm.internal;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -55,8 +54,8 @@ public class RelationshipMap extends HashMap<String, List<IRelationship>> implem
 			if (!createIfMissing) {
 				return null;
 			}
-			relationships = new ArrayList<IRelationship>();
-			IRelationship rel = new Relationship(relationshipName, kind, source, new ArrayList<String>(), runtimeTest);
+			relationships = new ArrayList<>();
+			IRelationship rel = new Relationship(relationshipName, kind, source, new ArrayList<>(), runtimeTest);
 			relationships.add(rel);
 
 			super.put(source, relationships);
@@ -70,7 +69,7 @@ public class RelationshipMap extends HashMap<String, List<IRelationship>> implem
 			if (createIfMissing) {
 				// At this point we did find some relationships for 'source' but not one that looks like what we are
 				// after (either the kind or the name or the dynamictests setting don't match)
-				IRelationship rel = new Relationship(relationshipName, kind, source, new ArrayList<String>(), runtimeTest);
+				IRelationship rel = new Relationship(relationshipName, kind, source, new ArrayList<>(), runtimeTest);
 				relationships.add(rel);
 				return rel;
 			}
@@ -112,7 +111,7 @@ public class RelationshipMap extends HashMap<String, List<IRelationship>> implem
 		List<IRelationship> existingRelationships = super.get(source);
 		if (existingRelationships == null) {
 			// new entry
-			existingRelationships = new ArrayList<IRelationship>();
+			existingRelationships = new ArrayList<>();
 			existingRelationships.add(relationship);
 			super.put(source, existingRelationships);
 		} else {

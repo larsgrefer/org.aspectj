@@ -1,12 +1,12 @@
 /* *******************************************************************
  * Copyright (c) 2005 Contributors.
- * All rights reserved. 
- * This program and the accompanying materials are made available 
- * under the terms of the Eclipse Public License v1.0 
- * which accompanies this distribution and is available at 
- * http://eclipse.org/legal/epl-v10.html 
- *  
- * Contributors: 
+ * All rights reserved.
+ * This program and the accompanying materials are made available
+ * under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution and is available at
+ * http://eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
  *   Adrian Colyer			Initial implementation
  * ******************************************************************/
 package org.aspectj.weaver;
@@ -23,6 +23,7 @@ import junit.framework.TestCase;
 
 // test cases for Adrian's additions to ReferenceType
 // XXX - couldn't find any unit test cases for the rest of the ReferenceType class
+@SuppressWarnings({ "unused", "rawtypes", "unchecked" })
 public class ReferenceTypeTestCase extends TestCase {
 
 	public void testIsRawTrue() {
@@ -83,7 +84,7 @@ public class ReferenceTypeTestCase extends TestCase {
 
 	public void testAssignable01() {
 		List list = new ArrayList();
-		List<String> listOfString = new ArrayList<String>();
+		List<String> listOfString = new ArrayList<>();
 		List<?> listOfSomething = new ArrayList<Integer>();
 		List<? extends Number> listOfSomethingNumberish = new ArrayList<Integer>();
 		List<? super Double> listOfSomethingSuperDouble = new ArrayList<Number>();
@@ -191,16 +192,16 @@ public class ReferenceTypeTestCase extends TestCase {
 
 	public void testAssignable02() {
 		List list = new ArrayList();
-		ArrayList arraylist = null;
-		List<String> listOfString = new ArrayList<String>();
+		List arraylist = null;
+		List<String> listOfString = new ArrayList<>();
 		List<?> listOfSomething = new ArrayList<Integer>();
-		ArrayList<?> arrayListOfSomething = null;
+		List<?> arrayListOfSomething = null;
 		List<Number> listOfNumber = null;
 		ArrayList<Number> arrayListOfNumber = null;
-		ArrayList<? extends Number> arrayListOfSomethingNumberish = null;
+		List<? extends Number> arrayListOfSomethingNumberish = null;
 		List<? extends Number> listOfSomethingNumberish = new ArrayList<Integer>();
 		List<? super Double> listOfSomethingSuperDouble = new ArrayList<Number>();
-		List<Integer> listOfInteger = new ArrayList<Integer>();
+		List<Integer> listOfInteger = new ArrayList<>();
 		ArrayList<String> arrayListOfString;
 		ArrayList<Integer> arraylistOfInteger;
 		// interfaces too List<? extends A,B>
@@ -244,7 +245,7 @@ public class ReferenceTypeTestCase extends TestCase {
 		assertTrue(ajListOfSomethingNumberish.isAssignableFrom(ajListOfInteger));
 
 		// void around(): execution(* C.m1(..)) && args(ArrayList<? extends Number>){}// Should runtime check (it does!)
-		arrayListOfSomethingNumberish = (ArrayList<? extends Number>) listOfInteger;
+		arrayListOfSomethingNumberish = listOfInteger;
 		assertFalse(ajArrayListOfSomethingNumberish.isAssignableFrom(ajListOfInteger));
 		assertTrue(ajArrayListOfSomethingNumberish.isCoerceableFrom(ajListOfInteger));
 
@@ -253,7 +254,7 @@ public class ReferenceTypeTestCase extends TestCase {
 		assertTrue(ajList.isAssignableFrom(ajListOfInteger));
 
 		// void around(): execution(* C.m1(..)) && args(ArrayList){}//: Should runtime check (it does not match!)
-		arraylist = (ArrayList) listOfInteger;
+		arraylist = listOfInteger;
 		assertFalse(ajArrayList.isAssignableFrom(ajListOfInteger));
 		assertTrue(ajArrayList.isCoerceableFrom(ajListOfInteger));
 
@@ -262,7 +263,7 @@ public class ReferenceTypeTestCase extends TestCase {
 		assertTrue(ajListOfSomething.isAssignableFrom(ajListOfInteger));
 
 		// void around(): execution(* C.m1(..)) && args(ArrayList<?>){}// Should runtime check (it does not match!)
-		arrayListOfSomething = (ArrayList<?>) listOfInteger;
+		arrayListOfSomething = listOfInteger;
 		assertFalse(ajArrayListOfSomething.isAssignableFrom(ajListOfInteger));
 		assertTrue(ajArrayListOfSomething.isCoerceableFrom(ajListOfInteger));
 
@@ -274,17 +275,17 @@ public class ReferenceTypeTestCase extends TestCase {
 
 	public void testAssignable03_method_m2() {
 		List list = new ArrayList();
-		ArrayList arraylist = null;
-		List<String> listOfString = new ArrayList<String>();
+		List arraylist = null;
+		List<String> listOfString = new ArrayList<>();
 		List<?> listOfSomething = new ArrayList<Integer>();
-		ArrayList<?> arrayListOfSomething = null;
+		List<?> arrayListOfSomething = null;
 		List<Number> listOfNumber = null;
-		ArrayList<Number> arrayListOfNumber = null;
-		ArrayList<Integer> arrayListOfInteger = null;
-		ArrayList<? extends Number> arrayListOfSomethingNumberish = null;
+		List<Number> arrayListOfNumber = null;
+		List<Integer> arrayListOfInteger = null;
+		List<? extends Number> arrayListOfSomethingNumberish = null;
 		List<? extends Number> listOfSomethingNumberish = new ArrayList<Integer>();
 		List<? super Double> listOfSomethingSuperDouble = new ArrayList<Number>();
-		List<Integer> listOfInteger = new ArrayList<Integer>();
+		List<Integer> listOfInteger = new ArrayList<>();
 		ArrayList<String> arrayListOfString;
 		ArrayList<Integer> arraylistOfInteger;
 		// interfaces too List<? extends A,B>
@@ -331,7 +332,7 @@ public class ReferenceTypeTestCase extends TestCase {
 		assertTrue(ajListOfSomethingNumberish.isAssignableFrom(ajListOfSomethingNumberish));
 
 		// void around(): execution(* C.m2(..)) && args(ArrayList<? extends Number>){}//: Should runtime check (it does!)
-		arrayListOfSomethingNumberish = (ArrayList<? extends Number>) listOfSomethingNumberish;
+		arrayListOfSomethingNumberish = listOfSomethingNumberish;
 		assertFalse(ajArrayListOfSomethingNumberish.isAssignableFrom(ajListOfSomethingNumberish));
 		assertTrue(ajArrayListOfSomethingNumberish.isCoerceableFrom(ajListOfSomethingNumberish));
 
@@ -340,7 +341,7 @@ public class ReferenceTypeTestCase extends TestCase {
 		assertTrue(ajList.isAssignableFrom(ajListOfSomethingNumberish));
 
 		// void around(): execution(* C.m2(..)) && args(ArrayList){}//: Should runtime check (it does not match!) ERROR
-		arraylist = (ArrayList) listOfSomethingNumberish;
+		arraylist = listOfSomethingNumberish;
 		assertFalse(ajArrayList.isAssignableFrom(ajListOfSomethingNumberish));
 		assertTrue(ajArrayList.isCoerceableFrom(ajListOfSomethingNumberish));
 
@@ -349,7 +350,7 @@ public class ReferenceTypeTestCase extends TestCase {
 		assertTrue(ajListOfSomething.isAssignableFrom(ajListOfSomethingNumberish));
 
 		// void around(): execution(* C.m2(..)) && args(ArrayList<?>){}//: Should runtime check (it does!)
-		arrayListOfSomething = (ArrayList) listOfSomethingNumberish;
+		arrayListOfSomething = listOfSomethingNumberish;
 		assertFalse(ajArrayListOfSomething.isAssignableFrom(ajListOfSomethingNumberish));
 		assertTrue(ajArrayListOfSomething.isCoerceableFrom(ajListOfSomethingNumberish));
 
@@ -362,17 +363,17 @@ public class ReferenceTypeTestCase extends TestCase {
 	public void testAssignable04_method_m3() {
 		List list = new ArrayList();
 		ArrayList arraylist = null;
-		List<String> listOfString = new ArrayList<String>();
+		List<String> listOfString = new ArrayList<>();
 		List<?> listOfSomething = new ArrayList<Integer>();
-		ArrayList<?> arrayListOfSomething = null;
+		List<?> arrayListOfSomething = null;
 		List<Number> listOfNumber = null;
-		ArrayList<Number> arrayListOfNumber = null;
+		List<Number> arrayListOfNumber = null;
 		ArrayList<Integer> arrayListOfInteger = null;
-		ArrayList<? extends Number> arrayListOfSomethingNumberish = null;
+		List<? extends Number> arrayListOfSomethingNumberish = null;
 		List<? extends Number> listOfSomethingNumberish = new ArrayList<Integer>();
 		List<? super Double> listOfSomethingSuperDouble = new ArrayList<Number>();
-		List<Integer> listOfInteger = new ArrayList<Integer>();
-		ArrayList arrayList = null;
+		List<Integer> listOfInteger = new ArrayList<>();
+		List arrayList = null;
 		ArrayList<String> arrayListOfString;
 		ArrayList<Integer> arraylistOfInteger;
 		// interfaces too List<? extends A,B>
@@ -408,7 +409,7 @@ public class ReferenceTypeTestCase extends TestCase {
 		assertTrue(ajListOfNumber.isAssignableFrom(ajListOfNumber));
 
 		// void around(): execution(* C.m3(..)) && args(ArrayList<Number>){}//: Should runtime match (it does)
-		arrayListOfNumber = (ArrayList<Number>) listOfNumber;
+		arrayListOfNumber = listOfNumber;
 		assertFalse(ajArrayListOfNumber.isAssignableFrom(ajListOfNumber));
 		assertTrue(ajArrayListOfNumber.isCoerceableFrom(ajListOfNumber));
 
@@ -417,7 +418,7 @@ public class ReferenceTypeTestCase extends TestCase {
 		assertTrue(ajListOfSomethingNumberish.isAssignableFrom(ajListOfNumber));
 
 		// void around(): execution(* C.m3(..)) && args(ArrayList<? extends Number>){}//: Should runtime check (it does!)
-		arrayListOfSomethingNumberish = (ArrayList<? extends Number>) listOfNumber;
+		arrayListOfSomethingNumberish = listOfNumber;
 		assertFalse(ajArrayListOfSomethingNumberish.isAssignableFrom(ajListOfNumber));
 		assertTrue(ajArrayListOfSomethingNumberish.isCoerceableFrom(ajListOfNumber));
 
@@ -426,7 +427,7 @@ public class ReferenceTypeTestCase extends TestCase {
 		assertTrue(ajList.isAssignableFrom(ajListOfNumber));
 
 		// void around(): execution(* C.m3(..)) && args(ArrayList){}//: Should runtime check (it does not match!) ERROR
-		arrayList = (ArrayList) listOfNumber;
+		arrayList = listOfNumber;
 		assertFalse(ajArrayList.isAssignableFrom(ajListOfNumber));
 		assertTrue(ajArrayList.isCoerceableFrom(ajListOfNumber));
 
@@ -435,7 +436,7 @@ public class ReferenceTypeTestCase extends TestCase {
 		assertTrue(ajListOfSomething.isAssignableFrom(ajListOfNumber));
 
 		// void around(): execution(* C.m3(..)) && args(ArrayList<?>){}//: Should runtime check (it does!)
-		arrayListOfSomething = (ArrayList<?>) listOfNumber;
+		arrayListOfSomething = listOfNumber;
 		assertFalse(ajArrayListOfSomething.isAssignableFrom(ajListOfNumber));
 		assertTrue(ajArrayListOfSomething.isCoerceableFrom(ajListOfNumber));
 
@@ -449,7 +450,7 @@ public class ReferenceTypeTestCase extends TestCase {
 	static class ClassA<T> {
 	}
 
-	static interface IMarker<H> {
+	interface IMarker<H> {
 	}
 
 	static class ClassB<T> implements IMarker<ClassA<T>> {
@@ -477,18 +478,18 @@ public class ReferenceTypeTestCase extends TestCase {
 
 	public void testAssignable03_method_m4() {
 		List list = new ArrayList();
-		ArrayList arraylist = null;
-		List<String> listOfString = new ArrayList<String>();
+		List arraylist = null;
+		List<String> listOfString = new ArrayList<>();
 		List<?> listOfSomething = new ArrayList<Integer>();
-		ArrayList<?> arrayListOfSomething = null;
+		List<?> arrayListOfSomething = null;
 		List<Number> listOfNumber = null;
-		ArrayList<Number> arrayListOfNumber = null;
-		ArrayList<? extends Number> arrayListOfSomethingNumberish = null;
+		List<Number> arrayListOfNumber = null;
+		List<? extends Number> arrayListOfSomethingNumberish = null;
 		List<? extends Number> listOfSomethingNumberish = new ArrayList<Integer>();
 		List<? super Double> listOfSomethingSuperDouble = new ArrayList<Number>();
-		List<Integer> listOfInteger = new ArrayList<Integer>();
-		ArrayList<String> arrayListOfString;
-		ArrayList<Integer> arraylistOfInteger;
+		List<Integer> listOfInteger = new ArrayList<>();
+		List<String> arrayListOfString;
+		List<Integer> arraylistOfInteger;
 		// interfaces too List<? extends A,B>
 
 		ReferenceType ajArrayListOfString = resolve("Pjava/util/ArrayList<Ljava/lang/String;>;");
@@ -542,7 +543,7 @@ public class ReferenceTypeTestCase extends TestCase {
 		assertTrue(ajList.isAssignableFrom(ajListOfSomething));
 
 		// void around(): execution(* C.m4(..)) && args(ArrayList){} // Should runtime check
-		arraylist = (ArrayList) listOfSomething;
+		arraylist = listOfSomething;
 		assertFalse(ajArrayList.isAssignableFrom(ajListOfSomething));
 		assertTrue(ajArrayList.isCoerceableFrom(ajListOfSomething));
 
@@ -551,7 +552,7 @@ public class ReferenceTypeTestCase extends TestCase {
 		assertTrue(ajList.isAssignableFrom(ajListOfSomething));
 
 		// void around(): execution(* C.m4(..)) && args(ArrayList<?>){} // Should runtime check
-		arrayListOfSomething = (ArrayList<?>) listOfSomething;
+		arrayListOfSomething = listOfSomething;
 		assertFalse(ajArrayListOfSomething.isAssignableFrom(ajListOfSomething));
 		assertTrue(ajArrayListOfSomething.isCoerceableFrom(ajListOfSomething));
 
@@ -564,7 +565,7 @@ public class ReferenceTypeTestCase extends TestCase {
 	// copy of the real one in BcelClassWeaver
 	public static class IfaceInitList implements PartialOrder.PartialComparable {
 		final ResolvedType onType;
-		List<ConcreteTypeMunger> list = new ArrayList<ConcreteTypeMunger>();
+		List<ConcreteTypeMunger> list = new ArrayList<>();
 
 		IfaceInitList(ResolvedType onType) {
 			this.onType = onType;
@@ -599,8 +600,7 @@ public class ReferenceTypeTestCase extends TestCase {
 			// ReferenceType.r = 0;
 			long stime = System.nanoTime();
 			for (int j = 0; j < 10; j++) {
-				List objects2 = new ArrayList();
-				objects2.addAll(objects);
+				List objects2 = new ArrayList(objects);
 				PartialOrder.sort(objects2);
 			}
 			long etime = System.nanoTime();

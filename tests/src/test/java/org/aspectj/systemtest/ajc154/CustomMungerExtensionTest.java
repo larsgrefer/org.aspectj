@@ -15,7 +15,6 @@ package org.aspectj.systemtest.ajc154;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -69,11 +68,11 @@ public class CustomMungerExtensionTest extends AjdeInteractionTestbed {
 	}
 
 	class DumbCustomMungerFactory implements CustomMungerFactory {
-		Collection<ShadowMunger> allShadowMungers = new ArrayList<ShadowMunger>();
-		Collection<ConcreteTypeMunger> allTypeMungers = new ArrayList<ConcreteTypeMunger>();
+		Collection<ShadowMunger> allShadowMungers = new ArrayList<>();
+		Collection<ConcreteTypeMunger> allTypeMungers = new ArrayList<>();
 
 		public Collection<ShadowMunger> createCustomShadowMungers(ResolvedType aspectType) {
-			List<ShadowMunger> mungers = new ArrayList<ShadowMunger>();
+			List<ShadowMunger> mungers = new ArrayList<>();
 			Pointcut pointcut = new IfPointcut("abc");
 			mungers.add(new DumbShadowMunger(new DeclareErrorOrWarning(false, pointcut, "")));
 			allShadowMungers.addAll(mungers);
@@ -81,7 +80,7 @@ public class CustomMungerExtensionTest extends AjdeInteractionTestbed {
 		}
 
 		public Collection<ConcreteTypeMunger> createCustomTypeMungers(ResolvedType aspectType) {
-			List<ConcreteTypeMunger> mungers = new ArrayList<ConcreteTypeMunger>();
+			List<ConcreteTypeMunger> mungers = new ArrayList<>();
 			mungers.add(new DumbTypeMunger(null, aspectType));
 			allTypeMungers.addAll(mungers);
 			return mungers;

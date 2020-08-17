@@ -14,10 +14,7 @@ package org.aspectj.ajdt.internal.compiler.batch;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 import junit.framework.TestCase;
 
@@ -29,7 +26,6 @@ import org.aspectj.bridge.IMessageHandler;
 import org.aspectj.bridge.IMessageHolder;
 import org.aspectj.bridge.MessageHandler;
 import org.aspectj.testing.util.TestUtil;
-import org.aspectj.tools.ajc.Ajc;
 import org.aspectj.util.LangUtil;
 import org.aspectj.weaver.bcel.LazyClassGen;
 
@@ -62,7 +58,7 @@ public abstract class CommandTestCase extends TestCase {
 	}
 
 	public static void checkCompile(String source, String[] extraArgs, int[] expectedErrors, String sandboxName) {
-		List<String> args = new ArrayList<String>();
+		List<String> args = new ArrayList<>();
 		args.add("-verbose");
 
 		args.add("-d");
@@ -74,9 +70,7 @@ public abstract class CommandTestCase extends TestCase {
 
 		args.add("-g"); // XXX need this to get sourcefile and line numbers, shouldn't
 
-		for (String extraArg : extraArgs) {
-			args.add(extraArg);
-		}
+		Collections.addAll(args, extraArgs);
 
 		args.add(Constants.TESTDATA_PATH + "/" + source);
 
@@ -87,7 +81,7 @@ public abstract class CommandTestCase extends TestCase {
 	}
 
 	public void checkMultipleCompile(String source) throws InterruptedException {
-		List<String> args = new ArrayList<String>();
+		List<String> args = new ArrayList<>();
 		args.add("-verbose");
 
 		args.add("-d");
@@ -117,7 +111,7 @@ public abstract class CommandTestCase extends TestCase {
 		ICommand command = new AjdtCommand();
 		MessageHandler myHandler = new MessageHandler();
 		myHandler.setInterceptor(org.aspectj.tools.ajc.Main.MessagePrinter.TERSE);
-		boolean result = command.runCommand((String[]) args.toArray(new String[args.size()]), myHandler);
+		boolean result = command.runCommand((String[]) args.toArray(new String[0]), myHandler);
 		System.out.println("result: " + result);
 		// System.out.println("errors: " + Arrays.asList(myHandler.getErrors()));
 		// System.out.println("warnings: " + Arrays.asList(myHandler.getWarnings()));

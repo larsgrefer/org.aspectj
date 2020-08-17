@@ -19,7 +19,7 @@ import org.aspectj.util.LangUtil;
 
 public class OutputSpec {
 
-	private List<String> expectedOutputLines = new ArrayList<String>();
+	private List<String> expectedOutputLines = new ArrayList<>();
 
 	public void addLine(OutputLine line) {
 		if (line.getVm() == null || matchesThisVm(line.getVm())) {
@@ -36,7 +36,12 @@ public class OutputSpec {
 	private boolean matchesThisVm(String vm) {
 		// vm might be 1.2, 1.3, 1.4, 1.5 or 1.9 possibly with a '+' in there
 		// For now assume + is attached to there only being one version, like "9+"
-		if (vm.contains(LangUtil.getVmVersionString())) {
+		//		System.out.println("Checking "+vm+" for "+LangUtil.getVmVersionString());
+		String v = LangUtil.getVmVersionString();
+		if (v.endsWith(".0")) {
+			v = v.substring(0,v.length()-2);
+		}
+		if (vm.contains(v)) {
 			return true;
 		}
 		if (vm.endsWith("+")) {
@@ -82,10 +87,8 @@ public class OutputSpec {
 			createFailureMessage(output, -1, outputFound.size());
 			return;
 		}
-		List<String> expected = new ArrayList<String>();
-		expected.addAll(expectedOutputLines);
-		List<String> found = new ArrayList<String>();
-		found.addAll(outputFound);
+		List<String> expected = new ArrayList<>(expectedOutputLines);
+		List<String> found = new ArrayList<>(outputFound);
 		for (String lineFound : outputFound) {
 			for (String lineExpected : expectedOutputLines) {
 				if (lineFound.contains(lineExpected)) {
@@ -119,7 +122,7 @@ public class OutputSpec {
 	}
 
 	private List<String> getOutputFound(String output) {
-		List<String> found = new ArrayList<String>();
+		List<String> found = new ArrayList<>();
 		StringTokenizer strTok = new StringTokenizer(output,"\n");
 		while(strTok.hasMoreTokens()) {
 			String outputLine = strTok.nextToken().trim();

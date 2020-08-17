@@ -22,20 +22,12 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FilenameFilter;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Hashtable;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.StringTokenizer;
-import java.util.Vector;
+import java.util.*;
 
 import org.aspectj.asm.AsmManager;
 import org.aspectj.bridge.IMessage;
 import org.aspectj.bridge.Version;
 import org.aspectj.util.FileUtil;
-import org.aspectj.util.LangUtil;
 
 /**
  * This is an old implementation of ajdoc that does not use an OO style. However, it does the job, and should serve to evolve a
@@ -86,13 +78,13 @@ public class Main implements Config {
 	private static String outputWorkingDir = Config.WORKING_DIR;
 
 	public static void clearState() {
-		options = new Vector<String>();
-		ajcOptions = new Vector<String>();
-		filenames = new Vector<String>();
-		fileList = new Vector<String>();
-		packageList = new Vector<String>();
+		options = new Vector<>();
+		ajcOptions = new Vector<>();
+		filenames = new Vector<>();
+		fileList = new Vector<>();
+		packageList = new Vector<>();
 		docModifier = "package";
-		sourcepath = new Vector<String>();
+		sourcepath = new Vector<>();
 		verboseMode = false;
 		packageMode = false;
 		rootDir = null;
@@ -104,11 +96,6 @@ public class Main implements Config {
 
 	public static void main(String[] args) {
 		clearState();
-		if (!JavadocRunner.has14ToolsAvailable()) {
-			System.err.println("ajdoc requires a JDK 1.4 or later tools jar - exiting");
-			aborted = true;
-			return;
-		}
 
 		// STEP 1: parse the command line and do other global setup
 		sourcepath.addElement("."); // add the current directory to the classapth
@@ -170,7 +157,7 @@ public class Main implements Config {
 	 * package-summary properly.
 	 */
 	private static void packageHTML(AsmManager model, File[] inputFiles) throws IOException {
-		ArrayList<String> dirList = new ArrayList<String>();
+		List<String> dirList = new ArrayList<>();
 		for (File inputFile : inputFiles) {
 			String packageName = StructureUtil.getPackageDeclarationFromFile(model, inputFile);
 			// Only copy the package.html file once.
@@ -239,7 +226,7 @@ public class Main implements Config {
 		System.out.println("> Calling javadoc...");
 		String[] javadocargs = null;
 
-		List<String> files = new ArrayList<String>();
+		List<String> files = new ArrayList<>();
 		if (packageMode) {
 			int numExtraArgs = 2;
 			if (authorStandardDocletSwitch)
@@ -267,12 +254,8 @@ public class Main implements Config {
 			for (int k = 0; k < fileList.size(); k++) {
 				javadocargs[numExtraArgs + options.size() + packageList.size() + k] = fileList.elementAt(k);
 			}
-			if (LangUtil.is19VMOrGreater()) {
-				options = new Vector<String>();
-				for (String a: javadocargs) {
-					options.add(a);
-				}
-			}
+			options = new Vector<>();
+			Collections.addAll(options, javadocargs);
 		} else {
 			javadocargs = new String[options.size() + signatureFiles.length];
 			for (int k = 0; k < options.size(); k++) {
@@ -285,11 +268,7 @@ public class Main implements Config {
 				files.add(StructureUtil.translateAjPathName(signatureFile.getCanonicalPath()));
 			}
 		}
-		if (LangUtil.is19VMOrGreater()) {
-			JavadocRunner.callJavadocViaToolProvider(options, files);
-		} else {
-			JavadocRunner.callJavadoc(javadocargs);
-		}
+		JavadocRunner.callJavadocViaToolProvider(options, files);
 	}
 
 	/**
@@ -362,7 +341,7 @@ public class Main implements Config {
 	}
 
 	static Vector<String> getSourcePath() {
-		Vector<String> sourcePath = new Vector<String>();
+		Vector<String> sourcePath = new Vector<>();
 		boolean found = false;
 		for (int i = 0; i < options.size(); i++) {
 			String currOption = options.elementAt(i);
@@ -471,7 +450,7 @@ public class Main implements Config {
 				String line = "";
 				line = br.readLine();
 				StringTokenizer st = new StringTokenizer(line, " ");
-				List<String> argList = new ArrayList<String>();
+				List<String> argList = new ArrayList<>();
 				while (st.hasMoreElements()) {
 					argList.add(st.nextToken());
 				}
@@ -490,7 +469,7 @@ public class Main implements Config {
 				ioe.printStackTrace();
 			}
 		}
-		List<String> vargs = new LinkedList<String>(Arrays.asList(args));
+		List<String> vargs = new LinkedList<>(Arrays.asList(args));
 		vargs.add("-Xset:minimalModel=false");
 		parseArgs(vargs, new File(".")); // !!!
 
@@ -722,7 +701,7 @@ public class Main implements Config {
 	}
 
 	static void expandAtSignFile(String filename, File currentWorkingDir) {
-		List<String> result = new LinkedList<String>();
+		List<String> result = new LinkedList<>();
 
 		File atFile = qualifiedFile(filename, currentWorkingDir);
 		String atFileParent = atFile.getParent();

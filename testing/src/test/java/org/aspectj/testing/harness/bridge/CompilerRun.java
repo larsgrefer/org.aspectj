@@ -22,7 +22,6 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -729,7 +728,7 @@ public class CompilerRun implements IAjcRun {
         private static String updateBootclasspathForSourceVersion(
             String sourceVersion,
             String compilerName,
-            ArrayList toAdd) {
+            List toAdd) {
             if (null == sourceVersion) {
                 return null;
             }
@@ -1497,7 +1496,7 @@ public class CompilerRun implements IAjcRun {
             String seek;
 
             /** if setup completed, this has the combined global/local options */
-            ArrayList commandOptions;
+            List commandOptions;
 
             public Object clone() {
                 TestSetup testSetup = new TestSetup();

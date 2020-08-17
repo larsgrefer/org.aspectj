@@ -1,11 +1,11 @@
 /* *******************************************************************
  * Copyright (c) 2004 IBM Corporation.
- * All rights reserved. 
- * This program and the accompanying materials are made available 
- * under the terms of the Eclipse Public License v1.0 
- * which accompanies this distribution and is available at 
- * http://www.eclipse.org/legal/epl-v10.html 
- *  
+ * All rights reserved.
+ * This program and the accompanying materials are made available
+ * under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
  * ******************************************************************/
 package org.aspectj.weaver.tools;
 
@@ -17,7 +17,6 @@ import org.aspectj.bridge.AbortException;
 import org.aspectj.bridge.IMessage;
 import org.aspectj.bridge.IMessage.Kind;
 import org.aspectj.bridge.IMessageHandler;
-import org.aspectj.util.LangUtil;
 import org.aspectj.weaver.patterns.PatternParser;
 import org.aspectj.weaver.patterns.Pointcut;
 import org.aspectj.weaver.patterns.PointcutRewriter;
@@ -34,9 +33,6 @@ public class PointcutParserTest extends TestCase {
 
 	/** this condition can occur on the build machine only, and is way too complex to fix right now... */
 	private boolean needToSkipPointcutParserTests() {
-		if (!LangUtil.is15VMOrGreater()) {
-			return false;
-		}
 		try {
 			Class.forName("org.aspectj.weaver.reflect.Java15ReflectionBasedReferenceTypeDelegate", false, this.getClass()
 					.getClassLoader());// ReflectionBasedReferenceTypeDelegate.class.getClassLoader());
@@ -87,7 +83,7 @@ public class PointcutParserTest extends TestCase {
 				.getPointcutParserSupportingSpecifiedPrimitivesAndUsingSpecifiedClassLoaderForResolution(p, this.getClass()
 						.getClassLoader());
 		assertEquals("Should use the set we pass in", p, parser.getSupportedPrimitives());
-		Set<PointcutPrimitive> q = new HashSet<PointcutPrimitive>();
+		Set<PointcutPrimitive> q = new HashSet<>();
 		q.add(PointcutPrimitive.ARGS);
 		parser = PointcutParser.getPointcutParserSupportingSpecifiedPrimitivesAndUsingSpecifiedClassLoaderForResolution(q, this
 				.getClass().getClassLoader());
@@ -203,7 +199,7 @@ public class PointcutParserTest extends TestCase {
 			return;
 		}
 
-		Set pcKinds = PointcutParser.getAllSupportedPointcutPrimitives();
+		Set<PointcutPrimitive> pcKinds = PointcutParser.getAllSupportedPointcutPrimitives();
 		pcKinds.remove(PointcutPrimitive.REFERENCE);
 		PointcutParser p = PointcutParser.getPointcutParserSupportingSpecifiedPrimitivesAndUsingSpecifiedClassLoaderForResolution(
 				pcKinds, this.getClass().getClassLoader());

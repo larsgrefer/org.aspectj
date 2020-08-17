@@ -110,7 +110,7 @@ public class WildTypePattern extends TypePattern {
 	}
 
 	public WildTypePattern(List<NamePattern> names, boolean includeSubtypes, int dim) {
-		this((NamePattern[]) names.toArray(new NamePattern[names.size()]), includeSubtypes, dim, false, TypePatternList.EMPTY);
+		this((NamePattern[]) names.toArray(new NamePattern[0]), includeSubtypes, dim, false, TypePatternList.EMPTY);
 
 	}
 
@@ -127,7 +127,7 @@ public class WildTypePattern extends TypePattern {
 
 	public WildTypePattern(List<NamePattern> names, boolean includeSubtypes, int dim, int endPos, boolean isVarArg, TypePatternList typeParams,
 			TypePattern upperBound, TypePattern[] additionalInterfaceBounds, TypePattern lowerBound) {
-		this((NamePattern[]) names.toArray(new NamePattern[names.size()]), includeSubtypes, dim, isVarArg, typeParams);
+		this((NamePattern[]) names.toArray(new NamePattern[0]), includeSubtypes, dim, isVarArg, typeParams);
 		this.end = endPos;
 		this.upperBound = upperBound;
 		this.lowerBound = lowerBound;
@@ -135,7 +135,7 @@ public class WildTypePattern extends TypePattern {
 	}
 
 	public WildTypePattern(List<NamePattern> names, boolean includeSubtypes, int dim, int endPos, boolean isVarArg, TypePatternList typeParams) {
-		this((NamePattern[]) names.toArray(new NamePattern[names.size()]), includeSubtypes, dim, isVarArg, typeParams);
+		this((NamePattern[]) names.toArray(new NamePattern[0]), includeSubtypes, dim, isVarArg, typeParams);
 		this.end = endPos;
 	}
 
@@ -199,7 +199,7 @@ public class WildTypePattern extends TypePattern {
 	// part of the declared type name (generated code often uses $s in type
 	// names). More work required on our part to get this right...
 	public static char[][] splitNames(String s, boolean convertDollar) {
-		List<char[]> ret = new ArrayList<char[]>();
+		List<char[]> ret = new ArrayList<>();
 		int startIndex = 0;
 		while (true) {
 			int breakIndex = s.indexOf('.', startIndex); // what about /
@@ -387,7 +387,7 @@ public class WildTypePattern extends TypePattern {
 
 	private boolean innerMatchesExactly(String s, boolean isAnonymous, boolean convertDollar /* isNested */) {
 
-		List<char[]> ret = new ArrayList<char[]>();
+		List<char[]> ret = new ArrayList<>();
 		int startIndex = 0;
 		while (true) {
 			int breakIndex = s.indexOf('.', startIndex); // what about /
@@ -588,9 +588,7 @@ public class WildTypePattern extends TypePattern {
 	@Override
 	public TypePattern parameterizeWith(Map<String,UnresolvedType> typeVariableMap, World w) {
 		NamePattern[] newNamePatterns = new NamePattern[namePatterns.length];
-		for (int i = 0; i < namePatterns.length; i++) {
-			newNamePatterns[i] = namePatterns[i];
-		}
+		System.arraycopy(namePatterns, 0, newNamePatterns, 0, namePatterns.length);
 		if (newNamePatterns.length == 1) {
 			String simpleName = newNamePatterns[0].maybeGetSimpleName();
 			if (simpleName != null) {
@@ -1157,7 +1155,7 @@ public class WildTypePattern extends TypePattern {
 	private String[] preMatch(String[] possibleMatches) {
 		// if (namePatterns.length != 1) return CollectionUtil.NO_STRINGS;
 
-		List<String> ret = new ArrayList<String>();
+		List<String> ret = new ArrayList<>();
 		for (String possibleMatch : possibleMatches) {
 			char[][] names = splitNames(possibleMatch, true); // ??? not most efficient
 			if (namePatterns[0].matches(names[names.length - 1])) {
@@ -1171,7 +1169,7 @@ public class WildTypePattern extends TypePattern {
 				}
 			}
 		}
-		return ret.toArray(new String[ret.size()]);
+		return ret.toArray(new String[0]);
 	}
 
 	// public void postRead(ResolvedType enclosingType) {

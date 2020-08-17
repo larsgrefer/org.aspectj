@@ -61,6 +61,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 import org.aspectj.apache.bcel.Constants;
@@ -690,7 +691,7 @@ public class InstructionList implements Serializable {
 			return;
 		}
 
-		ArrayList<InstructionHandle> target_vec = new ArrayList<InstructionHandle>();
+		List<InstructionHandle> target_vec = new ArrayList<>();
 
 		for (InstructionHandle ih = first; ih != null; ih = ih.next) {
 			ih.getInstruction().dispose(); // e.g. BranchInstructions release their targets
@@ -1003,7 +1004,7 @@ public class InstructionList implements Serializable {
 	 */
 	public Instruction[] getInstructions() {
 		ByteSequence bytes = new ByteSequence(getByteCode());
-		ArrayList<Instruction> instructions = new ArrayList<Instruction>();
+		List<Instruction> instructions = new ArrayList<>();
 
 		try {
 			while (bytes.available() > 0) {
@@ -1089,7 +1090,7 @@ public class InstructionList implements Serializable {
 	 * @return complete, i.e., deep copy of this list
 	 */
 	public InstructionList copy() {
-		HashMap<InstructionHandle, InstructionHandle> map = new HashMap<InstructionHandle, InstructionHandle>();
+		HashMap<InstructionHandle, InstructionHandle> map = new HashMap<>();
 		InstructionList il = new InstructionList();
 
 		/*
